@@ -396,6 +396,80 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
 .chip input:focus-visible + span { outline: 3px solid var(--blue); outline-offset: 2px; }
 .chip small { opacity: 0.75; font-size: 0.78rem; }
 
+/* workout log + recap */
+.wtabs { margin: 0.75rem 0 0.25rem; }
+.logcard { margin-top: 0.75rem; padding: 12px 16px 16px; display: grid; gap: 14px; }
+.logcard .fl { color: var(--ink); font-size: 0.95rem; margin-bottom: 6px; }
+.logcard input[type="number"], .logcard input[type="text"] { width: 100%; height: 46px; padding: 0 12px; border: 0; border-radius: 10px; background: var(--bg); color: var(--ink); font-size: 1.0625rem; }
+.logcard textarea { width: 100%; min-height: 6rem; resize: vertical; padding: 10px 12px; border: 0; border-radius: 12px; background: var(--bg); color: var(--ink); font-size: 1.0625rem; line-height: 1.4; }
+.logcard input::placeholder, .logcard textarea::placeholder { color: var(--faint); }
+.logcard .hint { color: var(--muted); font-size: 0.8rem; }
+.lrows { list-style: none; margin: 0; padding: 0; display: grid; }
+.lrow { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-top: 0.5px solid var(--line); }
+.lrow:first-child { border-top: 0; }
+.ltx { flex: 1; min-width: 0; display: grid; gap: 2px; overflow-wrap: anywhere; }
+.ltx span { color: var(--muted); font-size: 0.9rem; }
+.logadd { display: grid; gap: 8px; }
+.logadd .addbtn { justify-self: start; }
+.link.danger { color: var(--late); }
+.rc { padding: 12px 16px; display: grid; gap: 8px; }
+.rc-none, .rc-notes { color: var(--muted); font-size: 0.95rem; overflow-wrap: anywhere; }
+.rc-time { font-weight: 600; }
+.rc-ex { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.rc-ex li { display: grid; gap: 1px; overflow-wrap: anywhere; }
+.rc-ex span { color: var(--muted); font-size: 0.9rem; }
+
+.lsec { display: block; margin-bottom: 2px; }
+.lsec small { font-weight: 400; color: var(--muted); }
+.logcard .lrows .item { min-height: 46px; }
+.lprow { border-top: 0.5px solid var(--line); }
+.lprow:first-child, .lgl + .lprow { border-top: 0; }
+.logcard .lact { height: 42px; margin: 0 0 8px; }
+.lgl { list-style: none; padding: 10px 0 0; font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+
+/* edit mode */
+body.editing { padding-bottom: 7.5rem; }
+.editbar { margin-top: 0.75rem; padding: 14px 16px; border-radius: 16px; background: var(--blue-soft); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.editbar .nm { margin-top: 2px; }
+.editbar .sub { margin-top: 4px; }
+.ecard { outline: 1.5px dashed var(--blue); outline-offset: -1.5px; }
+.etop { cursor: default; }
+.elist { list-style: none; margin: 0; padding: 0; border-top: 0.5px solid var(--line); min-height: 8px; }
+.erow { padding: 8px 0 2px; border-top: 0.5px solid var(--line); background: var(--card); position: relative; }
+.erow:first-child { border-top: 0; }
+.eline { display: flex; align-items: center; gap: 8px; }
+.edel { flex: none; width: 36px; height: 44px; border: 0; background: transparent; cursor: pointer; display: grid; place-items: center; }
+.edel i { width: 22px; height: 22px; border-radius: 50%; background: var(--late); position: relative; display: block; }
+.edel i::after { content: ""; position: absolute; left: 5px; right: 5px; top: 50%; height: 2px; margin-top: -1px; background: #fff; border-radius: 1px; }
+.ename { flex: 1; min-width: 0; height: 44px; padding: 0 12px; border: 0; border-radius: 10px; background: var(--bg); color: var(--ink); font-size: 1.0625rem; }
+.grip { flex: none; width: 36px; height: 44px; border: 0; background: transparent; color: var(--muted); cursor: grab; display: grid; place-items: center; touch-action: none; user-select: none; -webkit-user-select: none; }
+.epri { margin: 6px 44px 8px; }
+.seg.epri button.so { min-height: 34px; line-height: 34px; font-size: 0.85rem; }
+.erow.dragging { z-index: 8; pointer-events: none; background: var(--card); box-shadow: var(--shadow); border-radius: 12px; }
+.dropline { list-style: none; height: 0; border-top: 3px solid var(--blue); border-radius: 2px; margin: 0; }
+body.dragging-now { user-select: none; -webkit-user-select: none; cursor: grabbing; }
+.addform { border-top: 0.5px solid var(--line); }
+.editdock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 7; background: var(--bar); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); border-top: 0.5px solid var(--line); padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.dockin { max-width: 640px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+
+/* print: only the recap prints */
+#printarea { display: none; }
+@media print {
+  :root { color-scheme: light !important; padding: 0 !important; }
+  body { background: #fff !important; padding: 0 !important; overflow: visible !important; }
+  body::before { display: none !important; }
+  body > *:not(#printarea) { display: none !important; }
+  #printarea { display: block; color: #000; font: 11.5pt/1.4 var(--font); }
+  #printarea * { color: #000 !important; }
+  #printarea h1 { font-size: 20pt; letter-spacing: 0; margin: 0 0 4pt; }
+  #printarea .pr-sub { margin: 0 0 14pt; }
+  #printarea .pr-day { break-inside: avoid; border-top: 1px solid #999; padding-top: 8pt; margin-top: 12pt; }
+  #printarea h2 { font-size: 13pt; margin: 0 0 4pt; }
+  #printarea p { margin: 4pt 0; }
+  #printarea table { width: 100%; border-collapse: collapse; margin: 6pt 0; }
+  #printarea th, #printarea td { text-align: left; padding: 3pt 6pt; border: 1px solid #bbb; }
+}
+
 @media (prefers-reduced-motion: reduce) { .fill, .item input, .chev, .wdet summary::after, .notes > summary::after { transition: none; } .sheet { animation: none; } }
 </style>
 </head>
@@ -406,6 +480,7 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
   <main id="view"></main>
 </div>
 <div id="toastbox" aria-live="polite"></div>
+<div id="printarea" aria-hidden="true"></div>
 <div class="overlay" id="sheet" hidden>
   <div class="scrim" data-close></div>
   <div class="sheet" id="sheetbox" role="dialog" aria-modal="true" aria-labelledby="stitle"></div>
@@ -454,7 +529,7 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
       title: 'Upper Body', when: 'Tuesday or Wednesday',
       sections: [
         {h: 'Warm-up', items: ['5 minutes easy jog', 'Downward dog into a push-up']},
-        {h: 'Lifting', items: ['3 x 5 bench press', '3 x 10 dumbell rows', '3 x 8 overhead press', '3 x AMRAP pull-ups']},
+        {h: 'Lifting', items: ['3 x 5 bench press', '3 x 10 dumbbell rows', '3 x 8 overhead press', '3 x AMRAP pull-ups']},
         {h: 'Your choice', groups: [
           {g: 'Tricep focus', items: ['2 x 8 skull crushers', '2 x 8 tricep extension']},
           {g: 'Chest focus', items: ['2 x 8 chest fly', '2 x AMRAP push-ups']},
@@ -479,7 +554,7 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
     {h: 'Shin splint maintenance / wall drills', note: '5-15 minutes', items: ['Heel walks 30mx2', 'Sit on heel 2-3x45 seconds', 'Split Squat Calf Raise 3x30-35 100 per leg', 'Duck Heel Walks 2x30m', 'Sit on fence toes ups 3x30-35 100', 'Sit on fence Calf raise 3x30-35 100', 'Knee over toes SL squat 3-5x20-35 100 per leg', 'Leaning Calf Raise 3x30-35 100 per leg (200 total)', 'Duck Heel Walks 2x30m', 'Standing toe up (100 total)', 'Single Leg Calf Raise standing 2-3 100 total', 'Heel walks 30mx2', 'Sit on heel 2-3x45 seconds']}
   ];
   var SPRINT = [
-    {h: 'Sprint drills', items: ['A marches 2x20 yds', 'A skips 2x20 yds', "A 2's 2x20 yds", "A 3's 2x20 yds", 'High knees hands on hips 2x20 yds', 'Power skips', 'Straight leg bounds', 'Power Bounds', 'Quick Feet', 'Pogos 10m each leg 20 meters total (down and back)', 'load - jump - pogo - land split 2x6 ( 3 lands ea way', 'Bent knee pogo split lunge 2x6', 'Sprinter jumps 2x6', 'Heel Walks 2x30m']}
+    {h: 'Sprint drills', items: ['A marches 2x20 yds', 'A skips 2x20 yds', "A 2's 2x20 yds", "A 3's 2x20 yds", 'High knees hands on hips 2x20 yds', 'Power skips', 'Straight leg bounds', 'Power Bounds', 'Quick Feet', 'Pogos 10m each leg 20 meters total (down and back)', 'load - jump - pogo - land split 2x6 ( 3 lands ea way )', 'Bent knee pogo split lunge 2x6', 'Sprinter jumps 2x6', 'Heel Walks 2x30m']}
   ];
 
   function esc(s) {
@@ -498,6 +573,10 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
   function dateOf(i) { return new Date(ws.getFullYear(), ws.getMonth(), ws.getDate() + i); }
   function iso(d) { function p(n) { return (n < 10 ? '0' : '') + n; } return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()); }
   var wk = iso(ws);
+  var loadedOn = iso(now0);
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden && iso(new Date()) !== loadedOn) location.reload();
+  });
   function nowMin() { var d = new Date(); return d.getHours() * 60 + d.getMinutes(); }
   function pm(m) { var h = Math.floor(m / 60), mm = m % 60; return (h > 12 ? h - 12 : h) + ':' + (mm < 10 ? '0' : '') + mm + ' PM'; }
 
@@ -509,10 +588,10 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
   } catch (e) {}
   function save() { try { localStorage.setItem('after-work-day-v1', JSON.stringify(st)); } catch (e) {} }
 
-  var cu = {items: {}, notes: {}, refl: {}, mood: {}};   /* tasks, notes and reflections stay until changed */
+  var cu = {items: {}, notes: {}, refl: {}, mood: {}, log: {}};   /* tasks, notes and reflections stay until changed */
   try {
     var raw2 = JSON.parse(localStorage.getItem('after-work-day-v2'));
-    if (raw2) { cu.items = raw2.items || {}; cu.notes = raw2.notes || {}; cu.refl = raw2.refl || {}; cu.mood = raw2.mood || {}; }
+    if (raw2) { cu.items = raw2.items || {}; cu.notes = raw2.notes || {}; cu.refl = raw2.refl || {}; cu.mood = raw2.mood || {}; cu.log = raw2.log || {}; }
   } catch (e) {}
   function saveCu() { try { localStorage.setItem('after-work-day-v2', JSON.stringify(cu)); } catch (e) {} }
 
@@ -562,6 +641,7 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
   var editing = false;
   var foldOpen = false;
   var undo = null, undoTimer = null;
+  var logDay = null, wTab = 'plan', recapOff = 0, logTimer = null;
 
   function initOpen() {}
 
@@ -647,39 +727,51 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
 
   var SL = {done: '✓ Done', now: '● Now', next: 'Up next', overdue: '! Overdue', later: 'Not started'};
 
-  function rowMenuHtml(di, m, it, idx) {
-    var days = DAYS[di].b, id = it.id, base = di + '|' + m.bi + '|' + id;
-    var upLabel = idx > 0 ? 'Move up' : (m.bi > 0 ? 'Move to ' + K[days[m.bi - 1][0]].name : 'Move up');
-    var dnLabel = idx < m.items.length - 1 ? 'Move down' : (m.bi < days.length - 1 ? 'Move to ' + K[days[m.bi + 1][0]].name : 'Move down');
-    var canUp = idx > 0 || m.bi > 0, canDn = idx < m.items.length - 1 || m.bi < days.length - 1;
-    var p = it.p || 'normal';
-    function pb(v, l) { return '<button class="so" type="button" data-pri="' + base + '|' + v + '" aria-pressed="' + (p === v) + '">' + l + '</button>'; }
-    return '<li class="rowmenu" role="group" aria-label="Task options">' +
-      '<div><label class="fl" for="rn-' + id + '">Task name</label><input type="text" id="rn-' + id + '" data-rename="' + base + '" value="' + esc(it.t) + '" maxlength="80" autocomplete="off"></div>' +
-      '<div><span class="fl">Priority</span><div class="seg" role="group" aria-label="Priority">' + pb('low', 'Low') + pb('normal', 'Normal') + pb('important', 'Important') + '</div></div>' +
-      '<div class="acts"><button type="button" data-mv="' + base + '|-1"' + (canUp ? '' : ' disabled') + '>' + esc(upLabel) + '</button>' +
-      '<button type="button" data-mv="' + base + '|1"' + (canDn ? '' : ' disabled') + '>' + esc(dnLabel) + '</button>' +
-      '<button type="button" class="danger" data-rm="' + base + '">Remove</button></div></li>';
+  var GRIP = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="currentColor"><rect x="4" y="7" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="15" width="16" height="2" rx="1"/></svg>';
+
+  function rowHtml(di, m, it) {
+    var cid = checkId(di, m.bi, it.id);
+    var tag = it.p === 'important' ? '<span class="tag imp">! Important</span>' : (it.p === 'low' ? '<span class="tag low">Low</span>' : '');
+    return '<li class="row"><label class="item"><input type="checkbox" id="' + cid + '"' + (st.done[cid] ? ' checked' : '') + '><span class="tx">' + esc(it.t) + '</span>' + tag + '</label></li>';
   }
 
-  function rowHtml(di, m, it, idx) {
-    var cid = checkId(di, m.bi, it.id), on = editing && menuRow === cid;
-    var tag = it.p === 'important' ? '<span class="tag imp">! Important</span>' : (it.p === 'low' ? '<span class="tag low">Low</span>' : '');
-    var out = '<li class="row"><label class="item"><input type="checkbox" id="' + cid + '"' + (st.done[cid] ? ' checked' : '') + '><span class="tx">' + esc(it.t) + '</span>' + tag + '</label>' +
-      (editing ? '<button class="more" type="button" data-more="' + cid + '" aria-expanded="' + on + '" aria-label="Options for ' + esc(it.t) + '">' + DOTS + '</button>' : '') + '</li>';
-    if (on) out += rowMenuHtml(di, m, it, idx);
-    return out;
+  /* ---------- edit mode: rename in place, set priority, drag to reorder, delete, add ---------- */
+  function editRowHtml(di, m, it) {
+    var base = di + '|' + m.bi + '|' + it.id, cid = checkId(di, m.bi, it.id), p = it.p || 'normal';
+    function pb(v, l) { return '<button class="so" type="button" data-pri="' + base + '|' + v + '" aria-pressed="' + (p === v) + '">' + l + '</button>'; }
+    return '<li class="erow" data-id="' + it.id + '" data-cid="' + cid + '"><div class="eline">' +
+      '<button class="edel" type="button" data-rm="' + base + '" aria-label="Delete ' + esc(it.t) + '"><i></i></button>' +
+      '<input class="ename" type="text" data-rename="' + base + '" value="' + esc(it.t) + '" maxlength="80" autocomplete="off" aria-label="Task name">' +
+      '<button class="grip" type="button" data-drag aria-label="Reorder ' + esc(it.t) + '. Drag, or use the up and down arrow keys.">' + GRIP + '</button></div>' +
+      '<div class="seg epri" role="group" aria-label="Priority">' + pb('low', 'Low') + pb('normal', 'Normal') + pb('important', 'Important') + '</div></li>';
+  }
+  function editBlockHtml(di, m) {
+    var k = K[m.kind];
+    return '<section class="tl s-later" style="--c:var(--' + m.kind + ')"><div class="bcard ecard">' +
+      '<div class="bt etop"><span class="bl"><span class="bn"><i class="dot" aria-hidden="true"></i>' + esc(k.name) + '</span>' +
+      '<span class="bm" style="display:block">' + TIME[m.start] + ' · ' + m.total + (m.total === 1 ? ' task' : ' tasks') + '</span></span></div>' +
+      '<ul class="items elist" data-bi="' + m.bi + '">' + m.items.map(function (it) { return editRowHtml(di, m, it); }).join('') + '</ul>' +
+      addFormHtml(di, m.bi) + '</div></section>';
+  }
+  function editBarHtml(di) {
+    return '<div class="editbar" role="status"><div><div class="lbl">Editing</div><div class="nm">' + DAYS[di].l + '</div>' +
+      '<div class="sub">Rename a task, set its priority, drag the handle to reorder, or add tasks. Changes save as you go.</div></div></div>';
+  }
+  function editDockHtml() {
+    return '<div class="editdock"><div class="dockin"><button class="link danger" type="button" data-act="restore">Restore original tasks</button>' +
+      '<button class="primary" type="button" data-act="edit">Done</button></div></div>';
   }
 
   function addFormHtml(di, bi) {
-    return '<form class="addrow" data-add="' + di + '|' + bi + '"><input type="text" id="add-' + di + '-' + bi + '" maxlength="80" autocomplete="off" placeholder="Task name" aria-label="New task name">' +
-      '<button class="addbtn" type="submit">Add</button></form>' +
+    return '<form class="addform" data-add="' + di + '|' + bi + '"><div class="addrow"><input type="text" id="add-' + di + '-' + bi + '" maxlength="80" autocomplete="off" placeholder="Task name" aria-label="New task name">' +
+      '<button class="addbtn" type="submit">Add</button></div>' +
       '<details class="opts"><summary>Options</summary>' +
       '<div class="seg" role="group" aria-label="Priority"><label class="so"><input type="radio" name="pri" value="low"><span>Low</span></label><label class="so"><input type="radio" name="pri" value="normal" checked><span>Normal</span></label><label class="so"><input type="radio" name="pri" value="important"><span>Important</span></label></div>' +
-      '<div class="seg" role="group" aria-label="Repeat"><label class="so"><input type="radio" name="scope" value="week" checked><span>Every week</span></label><label class="so"><input type="radio" name="scope" value="once"><span>This week only</span></label></div></details>';
+      '<div class="seg" role="group" aria-label="Repeat"><label class="so"><input type="radio" name="scope" value="week" checked><span>Every week</span></label><label class="so"><input type="radio" name="scope" value="once"><span>This week only</span></label></div></details></form>';
   }
 
   function blockHtml(di, m) {
+    if (editing) return editBlockHtml(di, m);
     var k = K[m.kind], key = bkey(di, m.bi), open = openOv[key] !== undefined ? openOv[key] : !!m.focus;
     var label = (m.s === 'later' && m.done > 0) ? 'In progress' : SL[m.s];
     var nextTask = '';
@@ -697,13 +789,11 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
       (showPill ? '<span class="pill st-' + (m.s === 'later' && m.done > 0 ? 'later' : m.s) + '">' + label + '</span>' : '') + '<span class="chev" aria-hidden="true"></span></button>' +
       '<div id="b-' + key + '"' + (open ? '' : ' hidden') + '>';
     if (m.items.length) {
-      out += '<ul class="items">' + m.items.map(function (it, idx) { return rowHtml(di, m, it, idx); }).join('') + '</ul>';
+      out += '<ul class="items">' + m.items.map(function (it, idx) { return rowHtml(di, m, it); }).join('') + '</ul>';
     }
     var foot = '';
-    if (editing) foot += '<button class="link" type="button" data-addtoggle="' + key + '">' + (addKey === key ? 'Cancel' : '+ Add task') + '</button>';
     if (m.kind === 'gym') foot += '<button class="link" type="button" data-info="' + di + '">Workout plan \u203A</button>';
     if (foot) out += '<div class="bfoot">' + foot + '</div>';
-    if (editing && addKey === key) out += addFormHtml(di, m.bi);
     return out + '</div></div></section>';
   }
 
@@ -725,6 +815,7 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
 
   function dayHtml(di) {
     var day = DAYS[di], meta = dayMeta(di), t = totals(meta), isToday = di === todayIdx, out = '';
+    if (editing && day.b.length) return editBarHtml(di) + '<div class="blocks" style="margin-top:0.75rem">' + meta.map(function (m) { return blockHtml(di, m); }).join('') + '</div>' + editDockHtml();
     out += statusCard(di, meta, t);
     if (isToday) {
       if (t.tot && t.done === t.tot) {
@@ -763,6 +854,12 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
       '<div class="metric"><div class="big">' + bd + '<span>/' + bt + '</span></div><div class="lbl">Blocks done</div></div></div>' +
       '<p class="note">' + msg + '</p>';
     out += '<div class="sechead"><h2>Day by day</h2></div><div class="wrows">' + rows + '</div>';
+    var rcp = recapData(0);
+    out += '<div class="sechead"><h2>Gym recap</h2></div><div class="status"><div class="srow">' +
+      '<div class="sc"><div class="lbl">Time at the gym</div><div class="big">' + bigTime(rcp.total) + '</div></div>' +
+      '<div class="sc"><div class="lbl">Workouts logged</div><div class="big">' + rcp.count + '</div></div></div>' +
+      '<div class="sub">' + (weekend ? 'The week that just ended: ' : 'This week: ') + esc(rcp.range) + '</div>' +
+      '<button class="primary" type="button" data-act="recap" style="width:100%">View, print or save recap</button></div>';
 
     var starts = {};
     for (var i = 0; i < WEEKDAYS; i++) DAYS[i].b.forEach(function (b) { starts[b[1]] = 1; });
@@ -804,10 +901,172 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
     return '<div class="grab"></div><div class="shead"><div><div class="stitle" id="stitle">' + esc(title) + '</div><div class="ssub">' + esc(sub) + '</div></div>' +
       '<button class="sdone" id="sdone" type="button">' + doneLabel + '</button></div><div class="sbody">' + body + '</div>';
   }
+  /* ---------- workout log + weekly recap ---------- */
+  var bws = weekend ? new Date(ws.getFullYear(), ws.getMonth(), ws.getDate() - 7) : ws;   /* week the recap covers: this week, or the one that just ended on a weekend */
+  function getLog(dk) { return cu.log[dk] || {m: '', n: '', e: [], p: {}}; }
+  function ensureLog(dk) { if (!cu.log[dk]) cu.log[dk] = {m: '', n: '', e: [], p: {}}; if (!cu.log[dk].e) cu.log[dk].e = []; if (!cu.log[dk].p) cu.log[dk].p = {}; return cu.log[dk]; }
+  /* the day's planned exercises, so the log can be preloaded with them */
+  function planSections(di) {
+    var w = di < DAYMAP.length ? WORK[DAYMAP[di]] : null, out = [];
+    if (!w) return out;
+    w.sections.forEach(function (sec, si) {
+      var rows = [];
+      if (sec.items) sec.items.forEach(function (t, ii) { rows.push({id: si + '-' + ii, t: t}); });
+      if (sec.groups) sec.groups.forEach(function (g, gi) { g.items.forEach(function (t, ii) { rows.push({id: si + 'g' + gi + '-' + ii, t: t, g: g.g}); }); });
+      out.push({h: sec.h, note: sec.note || '', rows: rows});
+    });
+    return out;
+  }
+  function setPlan(dk, id, key, val) {
+    var L = ensureLog(dk), q = L.p[id] || (L.p[id] = {d: 0, a: ''});
+    q[key] = val;
+    if (!q.d && !String(q.a).trim()) delete L.p[id];
+  }
+  function planDone(L) { return !!(L && L.p && Object.keys(L.p).some(function (k) { var q = L.p[k]; return q && (q.d || (q.a && String(q.a).trim())); })); }
+  function exRows(L, di) {
+    var out = [], P = L.p || {};
+    planSections(di).forEach(function (sec) { sec.rows.forEach(function (r) { var q = P[r.id]; if (q && (q.d || (q.a && String(q.a).trim()))) out.push({n: r.t, s: String(q.a || '').trim(), plan: true}); }); });
+    (L.e || []).forEach(function (e) { out.push({n: e.n, s: e.s || ''}); });
+    return out;
+  }
+  function exRes(e) { return e.s || (e.plan ? 'Done' : ''); }
+  function isLogged(L) { return !!(L && ((L.m !== '' && L.m != null) || (L.n && L.n.trim()) || (L.e && L.e.length) || planDone(L))); }
+  function fmtMin(m) { var h = Math.floor(m / 60), r = m % 60; return h ? h + ' h' + (r ? ' ' + r + ' min' : '') : r + ' min'; }
+  function bigTime(m) { var h = Math.floor(m / 60), r = m % 60; return h ? h + '<span> h</span>' + (r ? ' ' + r + '<span> min</span>' : '') : r + '<span> min</span>'; }
+
+  function recapData(off) {
+    var rs = new Date(bws.getFullYear(), bws.getMonth(), bws.getDate() - 7 * off);
+    var days = [], total = 0, count = 0;
+    for (var i = 0; i < 7; i++) {
+      var d = new Date(rs.getFullYear(), rs.getMonth(), rs.getDate() + i), L = cu.log[iso(d)];
+      var hasGym = i < WEEKDAYS && DAYS[i].b.some(function (b) { return b[0] === 'gym'; });
+      var has = isLogged(L);
+      if (!has && !hasGym) continue;
+      var mins = has ? Math.round(parseFloat(L.m) || 0) : 0;
+      total += mins; if (has) count++;
+      var ex = has ? exRows(L, i) : [], wk0 = i < DAYMAP.length ? WORK[DAYMAP[i]] : null;
+      days.push({label: DAYS[i].l + ', ' + MONL[d.getMonth()] + ' ' + d.getDate(), plan: wk0 ? wk0.title : '', mins: mins, ex: ex, notes: has && L.n ? L.n.trim() : '', logged: has});
+    }
+    var e = new Date(rs.getFullYear(), rs.getMonth(), rs.getDate() + 6);
+    var range = MONL[rs.getMonth()] + ' ' + rs.getDate() + ' – ' + (rs.getMonth() === e.getMonth() ? '' : MONL[e.getMonth()] + ' ') + e.getDate();
+    return {start: rs, range: range, days: days, total: total, count: count};
+  }
+
+  function recapText(d) {
+    var t = 'WORKOUT RECAP · Week of ' + d.range + '\n' + d.count + (d.count === 1 ? ' workout' : ' workouts') + ' logged · ' + fmtMin(d.total) + ' at the gym\n';
+    d.days.forEach(function (x) {
+      t += '\n' + x.label + (x.plan ? ' · ' + x.plan : '') + '\n';
+      if (!x.logged) { t += '  Nothing logged\n'; return; }
+      t += '  Time at the gym: ' + (x.mins ? fmtMin(x.mins) : 'not recorded') + '\n';
+      x.ex.forEach(function (e) { var r = exRes(e); t += '  - ' + e.n + (r ? ': ' + r : '') + '\n'; });
+      if (x.notes) t += '  Notes: ' + x.notes.replace(/\n/g, '\n         ') + '\n';
+    });
+    return t;
+  }
+
+  function printHtml(d) {
+    var h = '<h1>Workout recap</h1><p class="pr-sub">Week of ' + esc(d.range) + ' · ' + d.count + (d.count === 1 ? ' workout' : ' workouts') + ' logged · ' + fmtMin(d.total) + ' at the gym</p>';
+    d.days.forEach(function (x) {
+      h += '<section class="pr-day"><h2>' + esc(x.label) + (x.plan ? ' · ' + esc(x.plan) : '') + '</h2>';
+      if (!x.logged) { h += '<p>Nothing logged.</p></section>'; return; }
+      h += '<p><strong>Time at the gym:</strong> ' + (x.mins ? fmtMin(x.mins) : 'not recorded') + '</p>';
+      if (x.ex.length) h += '<table><thead><tr><th>Exercise</th><th>What you did</th></tr></thead><tbody>' + x.ex.map(function (e) { return '<tr><td>' + esc(e.n) + '</td><td>' + esc(exRes(e)) + '</td></tr>'; }).join('') + '</tbody></table>';
+      if (x.notes) h += '<p><strong>Notes:</strong> ' + esc(x.notes).replace(/\n/g, '<br>') + '</p>';
+      h += '</section>';
+    });
+    return h;
+  }
+
+  function recapSheetHtml() {
+    var d = recapData(recapOff);
+    var seg = '<div class="seg wtabs" role="group" aria-label="Week">' +
+      '<button class="so" type="button" data-recapoff="0" aria-pressed="' + (recapOff === 0) + '">This week</button>' +
+      '<button class="so" type="button" data-recapoff="1" aria-pressed="' + (recapOff === 1) + '">Last week</button></div>';
+    var stats = '<div class="metrics" style="grid-template-columns:repeat(2,minmax(0,1fr))">' +
+      '<div class="metric"><div class="big">' + bigTime(d.total) + '</div><div class="lbl">Time at the gym</div></div>' +
+      '<div class="metric"><div class="big">' + d.count + '</div><div class="lbl">Workouts logged</div></div></div>';
+    var acts = '<div style="display:flex;gap:8px;margin-top:0.75rem"><button class="primary" type="button" data-recapact="print" style="flex:1">Print or save PDF</button>' +
+      '<button class="ghost" type="button" data-recapact="share" style="flex:1">Share or save file</button></div>';
+    var days = d.days.map(function (x) {
+      var inner;
+      if (!x.logged) inner = '<p class="rc-none">Nothing logged.</p>';
+      else inner = '<p class="rc-time">' + (x.mins ? fmtMin(x.mins) + ' at the gym' : 'Time not recorded') + '</p>' +
+        (x.ex.length ? '<ul class="rc-ex">' + x.ex.map(function (e) { return '<li><strong>' + esc(e.n) + '</strong>' + (exRes(e) ? '<span>' + esc(exRes(e)) + '</span>' : '') + '</li>'; }).join('') + '</ul>' : '') +
+        (x.notes ? '<p class="rc-notes">' + esc(x.notes).replace(/\n/g, '<br>') + '</p>' : '');
+      return '<div class="wsub">' + esc(x.label) + (x.plan ? ' · ' + esc(x.plan) : '') + '</div><div class="wcard rc">' + inner + '</div>';
+    }).join('');
+    return sheetShell('Week recap', 'Week of ' + d.range, 'Done', seg + stats + acts + days + '<p class="note">Add time, sets and notes from the Log tab of each workout plan.</p>');
+  }
+
+  function logHtml(di) {
+    var dk = iso(dateOf(di)), L = getLog(dk), P = L.p || {};
+    var plan = planSections(di).map(function (sec) {
+      var last = null, li = '';
+      sec.rows.forEach(function (r) {
+        if (r.g && r.g !== last) li += '<li class="lgl">' + esc(r.g) + '</li>';
+        last = r.g || null;
+        var q = P[r.id] || {}, on = !!q.d, act = q.a || '';
+        li += '<li class="lprow"><label class="item"><input type="checkbox" data-lp="' + r.id + '"' + (on ? ' checked' : '') + '><span class="tx">' + esc(r.t) + '</span></label>' +
+          '<input type="text" class="lact" data-la="' + r.id + '" maxlength="80" autocomplete="off" placeholder="What you did (3 x 5 @ 135 lb)" aria-label="What you did: ' + esc(r.t) + '" value="' + esc(act) + '"' + ((on || act) ? '' : ' hidden') + '></li>';
+      });
+      return '<div><span class="fl lsec">' + esc(sec.h) + (sec.note ? ' <small>' + esc(sec.note) + '</small>' : '') + '</span><ul class="lrows">' + li + '</ul></div>';
+    }).join('');
+    var rows = L.e.map(function (x, i) {
+      return '<li class="lrow"><div class="ltx"><strong>' + esc(x.n) + '</strong>' + (x.s ? '<span>' + esc(x.s) + '</span>' : '') + '</div>' +
+        '<button class="link danger" type="button" data-logrm="' + i + '" aria-label="Remove ' + esc(x.n) + '">Remove</button></li>';
+    }).join('');
+    return '<div class="wcard logcard">' +
+      '<div><label class="fl" for="lg-min">Time at the gym (minutes)</label><input type="number" inputmode="numeric" min="0" max="600" step="1" id="lg-min" data-log="m" value="' + esc(L.m) + '" placeholder="60"></div>' +
+      (plan ? '<p class="hint">Preloaded from the plan. Check off what you did, then add the weight or reps in the box that appears.</p>' + plan : '') +
+      '<div><span class="fl">Extra exercises</span>' + (rows ? '<ul class="lrows">' + rows + '</ul>' : '') + '</div>' +
+      '<form class="logadd" data-logadd><input type="text" id="lg-ex" maxlength="60" autocomplete="off" placeholder="Add your own exercise" aria-label="Exercise name">' +
+      '<input type="text" id="lg-sets" maxlength="80" autocomplete="off" placeholder="Sets, reps, weight (3 x 5 @ 135 lb)" aria-label="Sets, reps and weight">' +
+      '<button class="addbtn" type="submit">Add exercise</button></form>' +
+      '<div><label class="fl" for="lg-notes">Workout notes</label><textarea id="lg-notes" data-log="n" placeholder="How it felt, PRs, what to change next time">' + esc(L.n) + '</textarea></div>' +
+      '<p class="hint">Saved on this device as you type. Your week recap pulls from this.</p></div>';
+  }
+
   function workoutHtml(di) {
-    var day = DAYS[di], w = WORK[DAYMAP[di]];
-    var body = (w ? w.sections.map(wsec).join('') : '') + wdet('Every day', 'Core + shin splint work', EVERY) + wdet('Sprint drills', 'Extra', SPRINT);
+    var day = DAYS[di], w = WORK[DAYMAP[di]], L = getLog(iso(dateOf(di)));
+    var seg = '<div class="seg wtabs" role="group" aria-label="Workout page">' +
+      '<button class="so" type="button" data-wtab="plan" aria-pressed="' + (wTab === 'plan') + '">Plan</button>' +
+      '<button class="so" type="button" data-wtab="log" aria-pressed="' + (wTab === 'log') + '">Log' + (isLogged(L) ? ' ✓' : '') + '</button></div>';
+    var body = seg + (wTab === 'log' ? logHtml(di)
+      : (w ? w.sections.map(wsec).join('') : '') + wdet('Every day', 'Core + shin splint work', EVERY) + wdet('Sprint drills', 'Extra', SPRINT));
     return sheetShell(w ? w.title : 'Workout', w ? 'Planned for ' + w.when : 'No lift planned for ' + day.l, 'Done', body);
+  }
+  function refreshLogSheet(focusId) {
+    var sb = sheetBox.querySelector('.sbody'), top = sb ? sb.scrollTop : 0;
+    sheetBox.innerHTML = workoutHtml(logDay);
+    var nb = sheetBox.querySelector('.sbody'); if (nb) nb.scrollTop = top;
+    var f = focusId && document.getElementById(focusId); if (f) f.focus();
+  }
+
+  function printRecap() {
+    var d = recapData(recapOff);
+    document.getElementById('printarea').innerHTML = printHtml(d);
+    document.title = 'Workout recap ' + iso(d.start);
+    window.print();
+  }
+  window.addEventListener('afterprint', function () {
+    document.getElementById('printarea').innerHTML = '';
+    document.title = 'After the Work Day';
+  });
+  function shareRecap() {
+    var d = recapData(recapOff), text = recapText(d), name = 'workout-recap-' + iso(d.start) + '.txt';
+    try {
+      if (navigator.share) {
+        var file = null;
+        try { file = new File([text], name, {type: 'text/plain'}); } catch (e) {}
+        if (file && navigator.canShare && navigator.canShare({files: [file]})) { navigator.share({files: [file], title: 'Workout recap'}).catch(function () {}); return; }
+        navigator.share({title: 'Workout recap', text: text}).catch(function () {});
+        return;
+      }
+    } catch (e) {}
+    var url = URL.createObjectURL(new Blob([text], {type: 'text/plain'}));
+    var a = document.createElement('a'); a.href = url; a.download = name;
+    document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1000);
   }
   function newTaskHtml(di) {
     var meta = dayMeta(di);
@@ -837,9 +1096,15 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
   }
   function closeSheet() {
     if (overlay.hidden) return;
+    if (logTimer) { clearTimeout(logTimer); logTimer = null; }
+    if (logDay !== null) saveCu();
+    logDay = null;
     overlay.hidden = true;
     document.body.classList.remove('lock');
-    if (lastOpener && document.body.contains(lastOpener)) lastOpener.focus();
+    var op = lastOpener, opAct = op && op.getAttribute ? op.getAttribute('data-act') : null;
+    if (tab === 7) render();
+    if (op && document.body.contains(op)) op.focus();
+    else if (opAct) { var again = viewEl.querySelector('[data-act="' + opAct + '"]'); if (again) again.focus(); }
     lastOpener = null;
   }
 
@@ -927,6 +1192,7 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
   var viewEl = document.getElementById('view');
   function render(focusId) {
     viewEl.innerHTML = tab === 7 ? weekHtml() : dayHtml(tab);
+    document.body.classList.toggle('editing', editing && tab !== 7);
     headEl.innerHTML = headHtml();
     tabsEl.innerHTML = stripHtml();
     if (focusId) { var el = document.getElementById(focusId); if (el) el.focus(); }
@@ -959,8 +1225,9 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
       var a = act.getAttribute('data-act');
       if (a === 'week') { goTab(7); return; }
       if (a === 'today') { goTab(todayIdx); return; }
+      if (a === 'recap') { recapOff = 0; openSheet(recapSheetHtml(), act); return; }
       if (a === 'menu') { menuOpen = !menuOpen; render(); return; }
-      if (a === 'edit') { editing = !editing; menuOpen = false; if (!editing) { menuRow = null; addKey = null; } render(); return; }
+      if (a === 'edit') { editing = !editing; menuOpen = false; if (!editing) { menuRow = null; addKey = null; } render(); window.scrollTo(0, 0); return; }
       if (a === 'newtask') { openSheet(newTaskHtml(tab), act, 'nt-name'); return; }
       if (a === 'expandall' || a === 'collapseall') {
         DAYS[tab].b.forEach(function (_, bi) { openOv[bkey(tab, bi)] = (a === 'expandall'); });
@@ -988,7 +1255,7 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
     if (tg) { var key = tg.getAttribute('data-toggle'); openOv[key] = tg.getAttribute('aria-expanded') !== 'true'; render(); return; }
 
     var inf = t.closest('[data-info]');
-    if (inf) { openSheet(workoutHtml(Number(inf.getAttribute('data-info'))), inf); return; }
+    if (inf) { logDay = Number(inf.getAttribute('data-info')); wTab = 'plan'; openSheet(workoutHtml(logDay), inf); return; }
 
     var at = t.closest('[data-addtoggle]');
     if (at) {
@@ -1036,8 +1303,8 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
     if (t.getAttribute && t.getAttribute('data-rename')) {
       var p = t.getAttribute('data-rename').split('|');
       var txt = t.value.replace(/\s+/g, ' ').trim();
-      if (txt) patchItem(Number(p[0]), Number(p[1]), p[2], function (it) { it.t = txt; });
-      render();
+      if (txt) { patchItem(Number(p[0]), Number(p[1]), p[2], function (it) { it.t = txt; }); t.value = txt; }
+      else { var cur = full(Number(p[0]), Number(p[1])), ci = idxIn(cur, p[2]); if (ci >= 0) t.value = cur[ci].t; }
     }
   });
 
@@ -1051,9 +1318,64 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
   });
 
   overlay.addEventListener('click', function (e) {
-    if (e.target.hasAttribute('data-close') || e.target.id === 'sdone') closeSheet();
+    var t = e.target;
+    if (t.hasAttribute('data-close') || t.id === 'sdone') { closeSheet(); return; }
+    var wt = t.closest('[data-wtab]');
+    if (wt && logDay !== null) {
+      wTab = wt.getAttribute('data-wtab');
+      sheetBox.innerHTML = workoutHtml(logDay);
+      var nb = sheetBox.querySelector('[data-wtab="' + wTab + '"]'); if (nb) nb.focus();
+      return;
+    }
+    var lr = t.closest('[data-logrm]');
+    if (lr && logDay !== null) {
+      ensureLog(iso(dateOf(logDay))).e.splice(Number(lr.getAttribute('data-logrm')), 1);
+      saveCu(); refreshLogSheet(); return;
+    }
+    var ro = t.closest('[data-recapoff]');
+    if (ro) {
+      recapOff = Number(ro.getAttribute('data-recapoff'));
+      sheetBox.innerHTML = recapSheetHtml();
+      var rb = sheetBox.querySelector('[data-recapoff="' + recapOff + '"]'); if (rb) rb.focus();
+      return;
+    }
+    var ra = t.closest('[data-recapact]');
+    if (ra) { if (ra.getAttribute('data-recapact') === 'print') printRecap(); else shareRecap(); }
+  });
+  overlay.addEventListener('input', function (e) {
+    var t = e.target;
+    if (!t.getAttribute || logDay === null) return;
+    var dk = iso(dateOf(logDay)), k = t.getAttribute('data-log'), la = t.getAttribute('data-la');
+    if (k) ensureLog(dk)[k] = t.value;
+    else if (la !== null) setPlan(dk, la, 'a', t.value);
+    else return;
+    if (logTimer) clearTimeout(logTimer);
+    logTimer = setTimeout(saveCu, 300);
+  });
+  overlay.addEventListener('change', function (e) {
+    var t = e.target, id = t.getAttribute ? t.getAttribute('data-lp') : null;
+    if (id === null || logDay === null) return;
+    setPlan(iso(dateOf(logDay)), id, 'd', t.checked ? 1 : 0);
+    var box = sheetBox.querySelector('[data-la="' + id + '"]');
+    if (box) box.hidden = !(t.checked || box.value.trim());
+    saveCu();
+  });
+  overlay.addEventListener('focusout', function (e) {
+    var t = e.target;
+    if (t && t.getAttribute && (t.getAttribute('data-log') !== null || t.getAttribute('data-la') !== null)) { if (logTimer) clearTimeout(logTimer); saveCu(); }
   });
   overlay.addEventListener('submit', function (e) {
+    var lf = e.target.closest('[data-logadd]');
+    if (lf) {
+      e.preventDefault();
+      if (logDay === null) return;
+      var exEl = document.getElementById('lg-ex'), nm = exEl.value.replace(/\s+/g, ' ').trim();
+      if (!nm) { exEl.focus(); return; }
+      var sv = document.getElementById('lg-sets').value.replace(/\s+/g, ' ').trim();
+      ensureLog(iso(dateOf(logDay))).e.push({n: nm, s: sv});
+      saveCu(); refreshLogSheet('lg-ex');
+      return;
+    }
     var f = e.target.closest('[data-new]');
     if (!f) return;
     e.preventDefault();
@@ -1076,12 +1398,109 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
     if (menuOpen) { menuOpen = false; render(); }
   });
 
+  /* move a task to a position in a block (k = index among that block's visible tasks) */
+  function commitMove(di, fromBi, id, toBi, k) {
+    var src = full(di, fromBi), ix = idxIn(src, id);
+    if (ix < 0) return;
+    var item = src.splice(ix, 1)[0], oldId = item.id, same = fromBi === toBi;
+    var tl = same ? src : full(di, toBi);
+    var vis = tl.filter(function (x) { return !x.w || x.w === wk; });
+    var ref = vis[k], pos = ref ? idxIn(tl, ref.id) : tl.length;
+    if (!same) item.id = uid('m');
+    tl.splice(pos, 0, item);
+    setFull(di, fromBi, src);
+    if (!same) {
+      setFull(di, toBi, tl);
+      var oc = checkId(di, fromBi, oldId), nc = checkId(di, toBi, item.id);
+      if (st.done[oc]) { delete st.done[oc]; st.done[nc] = 1; save(); }
+    }
+  }
+
+  var drag = null, dragTimer = null;
+  function dragUpdate() {
+    if (!drag) return;
+    drag.li.style.transform = 'translateY(' + (drag.y - drag.y0 + (window.scrollY - drag.s0)) + 'px)';
+    var el = document.elementFromPoint(drag.x, drag.y);
+    var card = el && el.closest ? el.closest('.ecard') : null;
+    if (!card) return;
+    var ul = card.querySelector('.elist'), rows = ul.querySelectorAll('.erow:not(.dragging)'), before = null;
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i].getBoundingClientRect();
+      if (drag.y < r.top + r.height / 2) { before = rows[i]; break; }
+    }
+    if (drag.line.parentNode !== ul || drag.line.nextElementSibling !== before) ul.insertBefore(drag.line, before);
+  }
+  viewEl.addEventListener('pointerdown', function (e) {
+    var h = e.target.closest ? e.target.closest('[data-drag]') : null;
+    if (!h || !editing || e.button > 0) return;
+    var li = h.closest('.erow');
+    if (!li) return;
+    e.preventDefault();
+    var line = document.createElement('li');
+    line.className = 'dropline';
+    li.parentNode.insertBefore(line, li.nextSibling);
+    drag = {li: li, line: line, id: li.getAttribute('data-id'), fromBi: Number(li.parentNode.getAttribute('data-bi')), x: e.clientX, y: e.clientY, y0: e.clientY, s0: window.scrollY, pid: e.pointerId};
+    li.classList.add('dragging');
+    document.body.classList.add('dragging-now');
+    dragTimer = setInterval(function () {
+      if (!drag) return;
+      if (drag.y < 90) window.scrollBy(0, -14); else if (drag.y > window.innerHeight - 90) window.scrollBy(0, 14);
+      dragUpdate();
+    }, 30);
+    dragUpdate();
+  });
+  document.addEventListener('pointermove', function (e) {
+    if (!drag || e.pointerId !== drag.pid) return;
+    drag.x = e.clientX; drag.y = e.clientY;
+    e.preventDefault();
+    dragUpdate();
+  }, {passive: false});
+  function endDrag(commit) {
+    var d = drag;
+    if (!d) return;
+    drag = null;
+    if (dragTimer) { clearInterval(dragTimer); dragTimer = null; }
+    document.body.classList.remove('dragging-now');
+    var ul = d.line.parentNode, k = 0, toBi = ul ? Number(ul.getAttribute('data-bi')) : d.fromBi;
+    if (ul) for (var n = ul.firstElementChild; n && n !== d.line; n = n.nextElementSibling) if (n.classList.contains('erow') && n !== d.li) k++;
+    d.line.remove();
+    d.li.classList.remove('dragging');
+    d.li.style.transform = '';
+    if (commit) commitMove(tab, d.fromBi, d.id, toBi, k);
+    render();
+  }
+  document.addEventListener('pointerup', function (e) { if (drag && e.pointerId === drag.pid) endDrag(true); });
+  document.addEventListener('pointercancel', function (e) { if (drag && e.pointerId === drag.pid) endDrag(false); });
+
+  viewEl.addEventListener('keydown', function (e) {
+    var t = e.target;
+    if (!t.getAttribute) return;
+    if (e.key === 'Enter' && t.getAttribute('data-rename')) { e.preventDefault(); t.blur(); return; }
+    if ((e.key === 'ArrowUp' || e.key === 'ArrowDown') && t.hasAttribute('data-drag')) {
+      e.preventDefault();
+      var li = t.closest('.erow'), bi = Number(li.parentNode.getAttribute('data-bi')), id = li.getAttribute('data-id');
+      menuRow = null;
+      moveItem(tab, bi, id, e.key === 'ArrowUp' ? -1 : 1);
+      var cid = menuRow || checkId(tab, bi, id);
+      menuRow = null;
+      render();
+      var g = viewEl.querySelector('.erow[data-cid="' + cid + '"] [data-drag]');
+      if (g) g.focus();
+    }
+  });
+
   viewEl.addEventListener('toggle', function (e) { if (e.target && e.target.id === 'fold') foldOpen = e.target.open; }, true);
 
   var noteTimer = null;
   viewEl.addEventListener('input', function (e) {
     var t = e.target;
     if (!t.getAttribute) return;
+    var rn = t.getAttribute('data-rename');
+    if (rn) {
+      var rq = rn.split('|'), tx = t.value.replace(/\s+/g, ' ').trim();
+      if (tx) patchItem(Number(rq[0]), Number(rq[1]), rq[2], function (it) { it.t = tx; });
+      return;
+    }
     var nk = t.getAttribute('data-note'), rk = t.getAttribute('data-refl');
     if (nk !== null) cu.notes[nk] = t.value;
     else if (rk !== null) cu.refl[rk] = t.value;
@@ -1100,7 +1519,7 @@ table.week { width: 100%; min-width: 320px; border-collapse: separate; border-sp
   initOpen(tab);
   render();
   setInterval(function () {
-    if (!overlay.hidden) return;
+    if (!overlay.hidden || editing || addKey) return;
     var a = document.activeElement;
     var typing = a && (a.tagName === 'TEXTAREA' || (a.tagName === 'INPUT' && a.type === 'text'));
     if (typing) return;
