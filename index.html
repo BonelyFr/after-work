@@ -21,70 +21,106 @@ body { margin: 0; }
 img { max-width: 100%; }
 </style>
 <style>
-/* Layout: iOS-style large title, a segmented day control that sticks to the top, and inset grouped cards for each time block. */
+/* Layout: greeting header, a sticky seven-day strip, a progress/up-next card, then a connected timeline of cards (rail on the left, status on each card). */
 :root {
   --bg: #f2f2f7;
   --card: #ffffff;
-  --ink: #000000;
-  --muted: #8a8a8e;
-  --sep: #e5e5ea;
-  --seg: #e3e3e8;
-  --bar: rgba(242, 242, 247, 0.85);
-  --blue: #007aff;
-  --blue-soft: rgba(0, 122, 255, 0.12);
-  --danger: #ff3b30;
+  --ink: #16161a;
+  --muted: #6a6a74;
+  --line: #e2e2e8;
+  --seg: #e9e9ee;
+  --segsel: #ffffff;
+  --bar: rgba(242, 242, 247, 0.96);
+  --blue: #2563eb;
+  --blue-soft: rgba(37, 99, 235, 0.12);
+  --ok: #059669;
+  --ok-ink: #047857;
+  --ok-soft: rgba(5, 150, 105, 0.12);
+  --next: #d97706;
+  --next-ink: #92400e;
+  --next-soft: rgba(217, 119, 6, 0.14);
+  --late: #dc2626;
+  --late-ink: #b91c1c;
+  --late-soft: rgba(220, 38, 38, 0.1);
   --on: #ffffff;
-  --home: #ff3b30;
-  --gym: #ff9500;
-  --pick: #34c759;
-  --tidy: #af52de;
-  --dinner: #a2845e;
-  --study: #30b0c7;
-  --sleep: #5856d6;
+  --onok: #ffffff;
+  --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+  --home: #7c3aed;
+  --gym: #ea580c;
+  --pick: #15803d;
+  --tidy: #c026d3;
+  --dinner: #92602d;
+  --study: #0284c7;
+  --sleep: #4f46e5;
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", system-ui, "Segoe UI", Roboto, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #000000;
-    --card: #1c1c1e;
-    --ink: #ffffff;
-    --muted: #98989f;
-    --sep: #38383a;
-    --seg: #1c1c1e;
-    --bar: rgba(0, 0, 0, 0.8);
-    --blue: #0a84ff;
-    --blue-soft: rgba(10, 132, 255, 0.2);
-    --danger: #ff453a;
-    --on: #000000;
-    --home: #ff453a;
-    --gym: #ff9f0a;
-    --pick: #30d158;
-    --tidy: #bf5af2;
-    --dinner: #ac8e68;
-    --study: #40c8e0;
-    --sleep: #6e6cf0;
+    --bg: #101114;
+    --card: #1b1c20;
+    --ink: #f5f6fa;
+    --muted: #a5a7b3;
+    --line: #303138;
+    --seg: #26272c;
+    --segsel: #3a3b42;
+    --bar: rgba(16, 17, 20, 0.96);
+    --blue: #3b82f6;
+    --blue-soft: rgba(59, 130, 246, 0.2);
+    --ok: #34d399;
+    --ok-ink: #34d399;
+    --ok-soft: rgba(52, 211, 153, 0.16);
+    --next: #fbbf24;
+    --next-ink: #fbbf24;
+    --next-soft: rgba(251, 191, 36, 0.16);
+    --late: #f87171;
+    --late-ink: #f87171;
+    --late-soft: rgba(248, 113, 113, 0.16);
+    --on: #101114;
+    --onok: #101114;
+    --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23101114' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    --home: #a78bfa;
+    --gym: #fb923c;
+    --pick: #4ade80;
+    --tidy: #e879f9;
+    --dinner: #d6a77a;
+    --study: #38bdf8;
+    --sleep: #818cf8;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #000000;
-  --card: #1c1c1e;
-  --ink: #ffffff;
-  --muted: #98989f;
-  --sep: #38383a;
-  --seg: #1c1c1e;
-  --bar: rgba(0, 0, 0, 0.8);
-  --blue: #0a84ff;
-  --blue-soft: rgba(10, 132, 255, 0.2);
-  --danger: #ff453a;
-  --on: #000000;
-  --home: #ff453a;
-  --gym: #ff9f0a;
-  --pick: #30d158;
-  --tidy: #bf5af2;
-  --dinner: #ac8e68;
-  --study: #40c8e0;
-  --sleep: #6e6cf0;
+  --bg: #101114;
+  --card: #1b1c20;
+  --ink: #f5f6fa;
+  --muted: #a5a7b3;
+  --line: #303138;
+  --seg: #26272c;
+  --segsel: #3a3b42;
+  --bar: rgba(16, 17, 20, 0.96);
+  --blue: #3b82f6;
+  --blue-soft: rgba(59, 130, 246, 0.2);
+  --ok: #34d399;
+  --ok-ink: #34d399;
+  --ok-soft: rgba(52, 211, 153, 0.16);
+  --next: #fbbf24;
+  --next-ink: #fbbf24;
+  --next-soft: rgba(251, 191, 36, 0.16);
+  --late: #f87171;
+  --late-ink: #f87171;
+  --late-soft: rgba(248, 113, 113, 0.16);
+  --on: #101114;
+  --onok: #101114;
+  --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23101114' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  --home: #a78bfa;
+  --gym: #fb923c;
+  --pick: #4ade80;
+  --tidy: #e879f9;
+  --dinner: #d6a77a;
+  --study: #38bdf8;
+  --sleep: #818cf8;
   color-scheme: dark;
 }
 
@@ -96,7 +132,7 @@ body {
   font-size: 17px;
   line-height: 1.35;
   -webkit-font-smoothing: antialiased;
-  padding-block: 0 3rem;
+  padding-block: 0 4rem;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
@@ -110,19 +146,21 @@ body::before {
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
 }
+body.lock { overflow: hidden; }
 .wrap { max-width: 640px; margin: 0 auto; }
-button, input, textarea { font-family: inherit; }
+button, input, textarea, select { font-family: inherit; }
+button { color: inherit; }
+:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+h1, h2, h3, p { margin: 0; }
 
-header { padding-top: 1.5rem; }
-h1 {
-  font-size: clamp(1.9rem, 9vw, 2.125rem);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  margin: 0;
-  text-wrap: balance;
-}
+/* header */
+header { padding-top: 1.25rem; }
+.app { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.eyebrow { margin-top: 0.9rem; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; color: var(--blue); }
+h1 { font-size: clamp(1.75rem, 8vw, 2.1rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.12; margin-top: 0.15rem; text-wrap: balance; }
+.msg { color: var(--muted); margin-top: 0.25rem; text-wrap: balance; }
 
+/* day strip */
 .tabbar {
   position: sticky;
   top: env(safe-area-inset-top, 0px);
@@ -131,102 +169,99 @@ h1 {
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   margin-inline: -16px;
-  padding: 0.6rem 16px;
+  padding: 0.4rem 12px;
+  margin-top: 0.5rem;
 }
-.tabs {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 2px;
-  padding: 2px;
-  background: var(--seg);
-  border-radius: 10px;
-  max-width: 640px;
-  margin: 0 auto;
-}
-.tab {
-  font-size: 0.9rem;
-  font-weight: 500;
-  min-height: 36px;
-  border: 0;
-  border-radius: 8px;
-  background: transparent;
-  color: var(--ink);
-  cursor: pointer;
-  position: relative;
-}
-.tab[aria-selected="true"] {
-  background: var(--card);
-  font-weight: 600;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18), 0 0 0 0.5px rgba(0, 0, 0, 0.04);
-}
-.tab.today::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 3px;
-  width: 4px;
-  height: 4px;
-  margin-left: -2px;
-  border-radius: 50%;
-  background: var(--blue);
-}
-.tab:focus-visible, .cell:focus-visible, .btn:focus-visible, .minus:focus-visible, .plus:focus-visible,
-textarea:focus-visible, .addrow input:focus-visible, .toast button:focus-visible {
-  outline: 3px solid var(--blue);
-  outline-offset: 2px;
-}
+.strip { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; max-width: 640px; margin: 0 auto; }
+.day { display: flex; flex-direction: column; align-items: center; gap: 1px; min-height: 62px; padding: 6px 0 4px; border: 0; border-radius: 12px; background: transparent; cursor: pointer; }
+.dl { font-size: 0.72rem; font-weight: 600; color: var(--muted); }
+.dn { font-size: 1.05rem; font-weight: 600; font-variant-numeric: tabular-nums; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; }
+.dd { width: 5px; height: 5px; border-radius: 50%; background: transparent; }
+.day:not(.off) .dd { background: var(--line); }
+.day.today .dn { color: var(--blue); box-shadow: inset 0 0 0 2px var(--blue); }
+.day.sel .dn { background: var(--blue); color: #fff; box-shadow: none; }
+.day.sel .dl { color: var(--blue); }
+.day.sel .dd { background: var(--blue); }
+.day.past { opacity: 0.62; }
+.day.off .dn { color: var(--muted); }
 
-.status { margin: 0.75rem 0 0.25rem; display: grid; gap: 0.75rem; }
-.status .line { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.01em; text-wrap: balance; }
-.status .sub { color: var(--muted); font-size: 0.95rem; margin-top: 0.1rem; }
-.meter { display: flex; align-items: center; gap: 0.75rem; }
-.track { flex: 1; height: 6px; background: var(--seg); border-radius: 3px; overflow: hidden; }
-.fill { height: 100%; width: 0; background: var(--blue); border-radius: 3px; transition: width 0.25s ease; }
-.count { font-variant-numeric: tabular-nums; font-size: 0.85rem; color: var(--muted); min-width: 5.5rem; text-align: right; }
+/* status card */
+.status { background: var(--card); border-radius: 16px; padding: 16px; display: grid; gap: 14px; margin-top: 0.75rem; }
+.srow { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.sc { min-width: 0; }
+.lbl { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.big { font-size: 1.9rem; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; line-height: 1.15; margin-top: 2px; }
+.big span { font-size: 1.1rem; font-weight: 500; color: var(--muted); }
+.nm { font-size: 1.15rem; font-weight: 650; margin-top: 4px; line-height: 1.2; overflow-wrap: anywhere; }
+.sub { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
+.ptop { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+.track { display: block; height: 8px; border-radius: 4px; background: var(--seg); overflow: hidden; }
+.fill { display: block; height: 100%; width: 0; background: var(--blue); border-radius: 4px; transition: width 0.25s ease; }
 
-.alert { margin-top: 0.75rem; padding: 0.75rem 1rem; border-radius: 14px; background: rgba(255, 59, 48, 0.14); display: grid; gap: 0.15rem; }
-.alert strong { color: var(--danger); font-size: 0.95rem; font-weight: 600; }
+.alert { margin-top: 0.75rem; padding: 0.7rem 1rem; border-radius: 14px; background: var(--late-soft); display: grid; gap: 0.1rem; }
+.alert strong { color: var(--late-ink); font-size: 0.9rem; font-weight: 600; }
 .alert span { font-size: 0.95rem; overflow-wrap: anywhere; }
-.tab.late::after { background: var(--danger); width: 6px; height: 6px; margin-left: -3px; }
+.finish { margin-top: 0.75rem; padding: 1rem; border-radius: 14px; background: var(--ok-soft); display: grid; gap: 0.15rem; }
+.finish strong { color: var(--ok-ink); font-size: 1.1rem; }
+.finish .link { justify-self: start; margin-left: -0.25rem; }
 
-.tools { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
-.btn {
-  font-size: 0.95rem;
-  font-weight: 600;
-  min-height: 44px;
-  padding: 0 1rem;
-  background: var(--blue-soft);
-  color: var(--blue);
-  border: 0;
-  border-radius: 12px;
-  cursor: pointer;
-}
-.btn[aria-pressed="true"] { background: var(--blue); color: #fff; }
-.btn.reset { background: transparent; color: var(--blue); padding: 0 0.5rem; font-weight: 500; }
+/* toolbar */
+.tools { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.75rem; position: relative; }
+.primary { min-height: 46px; padding: 0 1.1rem; border: 0; border-radius: 12px; background: var(--blue); color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer; }
+.primary.wide { width: 100%; margin-top: 1.25rem; }
+.ghost { min-height: 46px; padding: 0 1rem; border: 0; border-radius: 12px; background: var(--blue-soft); color: var(--blue); font-size: 0.95rem; font-weight: 600; cursor: pointer; }
+.kebab { margin-left: auto; width: 46px; height: 46px; border: 0; border-radius: 12px; background: var(--card); cursor: pointer; display: grid; place-items: center; }
+.kebab[aria-expanded="true"] { background: var(--seg); }
+.menu { position: absolute; right: 0; top: calc(100% + 6px); min-width: 250px; background: var(--card); border-radius: 14px; box-shadow: var(--shadow); padding: 6px; z-index: 6; display: grid; }
+.menu button { text-align: left; min-height: 46px; padding: 0 12px; border: 0; border-radius: 10px; background: transparent; font-size: 1rem; cursor: pointer; }
+.menu button:hover { background: var(--seg); }
+.menu .danger { color: var(--late-ink); }
+.link { background: none; border: 0; color: var(--blue); font-size: 0.95rem; font-weight: 600; min-height: 44px; padding: 0 0.4rem; cursor: pointer; }
 
-.blocks { display: grid; gap: 1rem; margin-top: 1rem; }
-.blk { background: var(--card); border-radius: 14px; padding: 0 1rem; min-width: 0; --c: var(--blue); }
-.blk.now { box-shadow: 0 0 0 2px var(--blue); }
-.bhead { display: flex; align-items: center; gap: 0.5rem; min-height: 52px; }
-.bhead h2 { order: 1; display: flex; align-items: center; gap: 0.6rem; font-size: 1.0625rem; font-weight: 600; margin: 0; min-width: 0; }
-.bhead h2::before { content: ""; flex: none; width: 12px; height: 12px; border-radius: 50%; background: var(--c); }
-.pill {
-  order: 2;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  background: var(--blue);
-  color: #fff;
-  padding: 0.15rem 0.5rem;
-  border-radius: 999px;
-}
-.time { order: 3; margin-left: auto; font-variant-numeric: tabular-nums; font-size: 0.9rem; color: var(--muted); text-align: right; }
+.sechead { display: flex; align-items: center; justify-content: space-between; margin: 1.25rem 0.25rem 0.25rem; }
+.sechead h2 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; }
+.note { color: var(--muted); font-size: 0.85rem; margin: 0.5rem 0.25rem 0; }
+.empty { background: var(--card); border-radius: 16px; padding: 1rem; margin-top: 0.5rem; display: grid; gap: 0.3rem; }
+.empty p { color: var(--muted); font-size: 0.95rem; }
 
-ul.items { list-style: none; margin: 0; padding: 0; }
-.items li { border-top: 0.5px solid var(--sep); display: flex; align-items: center; gap: 0.5rem; }
-.item { flex: 1; min-width: 0; display: flex; align-items: center; gap: 0.8rem; min-height: 48px; cursor: pointer; padding-block: 0.3rem; }
-.item span { min-width: 0; overflow-wrap: anywhere; }
+/* timeline */
+.blocks { margin-top: 0.5rem; }
+.tl { display: grid; grid-template-columns: 30px minmax(0, 1fr); column-gap: 6px; padding-bottom: 14px; --c: var(--blue); }
+.tl:last-child { padding-bottom: 0; }
+.rail { position: relative; }
+.rail::before { content: ""; position: absolute; left: 50%; margin-left: -1px; width: 2px; top: 0; bottom: 0; background: var(--line); }
+.tl:first-child .rail::before { top: 30px; }
+.tl:last-child .rail::before { bottom: auto; height: 30px; }
+.tl:only-child .rail::before { display: none; }
+.node { position: absolute; left: 50%; top: 21px; width: 18px; height: 18px; margin-left: -9px; border-radius: 50%; border: 2px solid var(--line); background: var(--bg); }
+.s-done .node { background: var(--ok); border-color: var(--ok); }
+.s-done .node::after { content: ""; position: absolute; left: 4px; top: 0; width: 4px; height: 8px; border: solid var(--onok); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.s-now .node { background: var(--blue); border-color: var(--blue); box-shadow: 0 0 0 5px var(--blue-soft); }
+.s-next .node { border-color: var(--next); }
+.s-overdue .node { border-color: var(--late); background: var(--late-soft); }
+.bcard { background: var(--card); border-radius: 16px; padding: 0 16px; min-width: 0; }
+.s-now .bcard { box-shadow: 0 0 0 2px var(--blue); }
+.s-overdue .bcard { box-shadow: 0 0 0 1.5px var(--late); }
+.bt { width: 100%; display: flex; align-items: center; gap: 10px; min-height: 68px; padding: 10px 0; border: 0; background: transparent; text-align: left; cursor: pointer; }
+.bl { flex: 1; min-width: 0; }
+.bn { display: flex; align-items: center; gap: 8px; font-size: 1.0625rem; font-weight: 650; }
+.dot { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+.s-done .bn { color: var(--muted); }
+.bm { font-size: 0.8rem; color: var(--muted); margin-top: 2px; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.pill { flex: none; font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 999px; white-space: nowrap; }
+.st-done { background: var(--ok-soft); color: var(--ok-ink); }
+.st-now { background: var(--blue); color: #fff; }
+.st-next { background: var(--next-soft); color: var(--next-ink); }
+.st-overdue { background: var(--late-soft); color: var(--late-ink); }
+.st-later { background: var(--seg); color: var(--muted); }
+.chev { flex: none; width: 10px; height: 10px; border: solid var(--muted); border-width: 0 2px 2px 0; transform: rotate(45deg); margin: 0 4px 3px 2px; transition: transform 0.2s ease; }
+.bt[aria-expanded="true"] .chev { transform: rotate(-135deg); margin-bottom: -3px; }
+
+ul.items { list-style: none; margin: 0; padding: 0; border-top: 0.5px solid var(--line); }
+.row { display: flex; align-items: center; gap: 4px; border-top: 0.5px solid var(--line); }
+.row:first-child { border-top: 0; }
+.item { flex: 1; min-width: 0; display: flex; align-items: center; gap: 0.8rem; min-height: 50px; cursor: pointer; padding-block: 4px; }
+.tx { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .item input {
   -webkit-appearance: none;
   appearance: none;
@@ -240,178 +275,92 @@ ul.items { list-style: none; margin: 0; padding: 0; }
   cursor: pointer;
   transition: background-color 0.15s ease, border-color 0.15s ease;
 }
-.item input:checked {
-  background-color: var(--c);
-  border-color: var(--c);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-}
-.item input:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
-.item input:checked + span { color: var(--muted); }
-.empty { color: var(--muted); font-size: 0.95rem; margin: 0 0 0.75rem; }
+.item input:checked { background-color: var(--ok); border-color: var(--ok); background-image: var(--check); }
+.item input:checked + .tx { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--muted); }
+.tag { flex: none; font-size: 0.7rem; font-weight: 600; padding: 0.1rem 0.5rem; border-radius: 999px; white-space: nowrap; }
+.tag.imp { background: var(--late-soft); color: var(--late-ink); }
+.tag.low { background: var(--seg); color: var(--muted); }
+.more { flex: none; width: 44px; height: 44px; border: 0; border-radius: 10px; background: transparent; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
+.more[aria-expanded="true"] { background: var(--seg); color: var(--ink); }
+.rowmenu { background: var(--bg); border-radius: 12px; padding: 12px; margin: 2px 0 10px; display: grid; gap: 10px; }
+.rowmenu input[type="text"] { width: 100%; height: 44px; padding: 0 12px; border: 0; border-radius: 10px; background: var(--card); color: var(--ink); font-size: 1.0625rem; }
+.fl { font-size: 0.78rem; font-weight: 600; color: var(--muted); margin-bottom: 4px; display: block; }
+.acts { display: flex; flex-wrap: wrap; gap: 6px; }
+.acts button { flex: 1 1 auto; min-height: 44px; padding: 0 12px; border: 0; border-radius: 10px; background: var(--card); font-size: 0.9rem; font-weight: 500; cursor: pointer; }
+.acts button:disabled { opacity: 0.4; cursor: default; }
+.acts .danger { color: var(--late-ink); }
 
-.minus, .plus {
-  flex: none;
-  width: 44px;
-  height: 44px;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  position: relative;
-  padding: 0;
-}
-.minus::before, .plus::before { content: ""; position: absolute; inset: 9px; border-radius: 50%; }
-.minus::before { background: var(--danger); }
-.minus::after { content: ""; position: absolute; left: 14px; right: 14px; top: 50%; height: 2px; margin-top: -1px; background: #fff; border-radius: 1px; }
-.plus::before { background: var(--blue); }
-.plus::after { content: "+"; position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-size: 1.5rem; font-weight: 400; line-height: 1; padding-bottom: 2px; }
-.addrow { display: flex; align-items: center; gap: 0.25rem; padding: 0.3rem 0 0.4rem; border-top: 0.5px solid var(--sep); }
-.addrow input {
-  flex: 1;
-  min-width: 0;
-  height: 44px;
-  font-size: 1.0625rem;
-  padding: 0 0.75rem;
-  background: var(--bg);
-  color: var(--ink);
-  border: 0;
-  border-radius: 10px;
-}
-.addrow input::placeholder { color: var(--muted); }
+.seg { display: flex; gap: 2px; padding: 2px; background: var(--seg); border-radius: 10px; }
+.seg .so { position: relative; flex: 1; min-width: 0; display: block; }
+.seg label.so input { position: absolute; opacity: 0; pointer-events: none; }
+.seg .so span, .seg button.so { display: block; width: 100%; min-height: 40px; line-height: 40px; text-align: center; border: 0; border-radius: 8px; background: transparent; font-size: 0.9rem; cursor: pointer; padding: 0 4px; }
+.seg label.so input:checked + span, .seg button.so[aria-pressed="true"] { background: var(--segsel); font-weight: 600; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18); }
+.seg label.so input:focus-visible + span { outline: 3px solid var(--blue); outline-offset: 1px; }
 
-.toast {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  background: var(--ink);
-  color: var(--bg);
-  padding: 0.35rem 0.4rem 0.35rem 1rem;
-  margin-top: 0.75rem;
-  border-radius: 14px;
-  font-size: 0.95rem;
-}
-.toast span { min-width: 0; overflow-wrap: anywhere; }
-.toast button {
-  flex: none;
-  font-size: 0.95rem;
-  font-weight: 600;
-  min-height: 40px;
-  padding: 0 1rem;
-  background: transparent;
-  color: var(--blue);
-  border: 0;
-  border-radius: 10px;
-  cursor: pointer;
-}
+.bfoot { display: flex; align-items: center; justify-content: space-between; border-top: 0.5px solid var(--line); }
+.addrow { display: flex; gap: 8px; padding: 8px 0 4px; }
+.addrow input { flex: 1; min-width: 0; height: 44px; padding: 0 12px; border: 0; border-radius: 10px; background: var(--bg); color: var(--ink); font-size: 1.0625rem; }
+.addrow input::placeholder, .newform input::placeholder, .notes textarea::placeholder { color: var(--muted); }
+.addbtn { flex: none; min-height: 44px; padding: 0 1rem; border: 0; border-radius: 10px; background: var(--blue); color: #fff; font-weight: 600; cursor: pointer; }
+.opts { padding: 2px 0 10px; }
+.opts summary { font-size: 0.85rem; color: var(--muted); cursor: pointer; min-height: 32px; display: flex; align-items: center; }
+.opts .seg { margin-top: 6px; }
 
-.note { color: var(--muted); font-size: 0.85rem; margin: 0.75rem 0.25rem 0; }
-.notes { background: var(--card); border-radius: 14px; padding: 0.75rem 1rem 0.9rem; margin-top: 1rem; }
-.notes label { display: block; font-size: 1.0625rem; font-weight: 600; margin-bottom: 0.5rem; }
-.notes textarea {
-  width: 100%;
-  min-height: 8rem;
-  resize: vertical;
-  font-size: 1.0625rem;
-  line-height: 1.4;
-  padding: 0.6rem 0.75rem;
-  background: var(--bg);
-  color: var(--ink);
-  border: 0;
-  border-radius: 10px;
-}
-.notes textarea::placeholder { color: var(--muted); }
-.notes .hint { color: var(--muted); font-size: 0.8rem; margin: 0.5rem 0 0; }
+/* reflection */
+.notes { background: var(--card); border-radius: 16px; padding: 16px; margin-top: 1.25rem; display: grid; gap: 14px; }
+.notes h2 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; }
+.notes label.fl { font-size: 0.95rem; color: var(--ink); font-weight: 600; margin-bottom: 6px; }
+.notes textarea { width: 100%; min-height: 6.5rem; resize: vertical; padding: 10px 12px; border: 0; border-radius: 12px; background: var(--bg); color: var(--ink); font-size: 1.0625rem; line-height: 1.4; }
+.notes .hint { color: var(--muted); font-size: 0.8rem; }
 
-.gridwrap { overflow-x: auto; margin-top: 1rem; background: var(--card); border-radius: 14px; padding: 0.5rem; }
+/* week */
+.metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 0.75rem; }
+.metric { background: var(--card); border-radius: 16px; padding: 14px 12px; }
+.metric .big { font-size: 1.6rem; }
+.metric .lbl { font-size: 0.68rem; margin-top: 2px; }
+.wrows { display: grid; gap: 2px; margin-top: 0.4rem; background: var(--card); border-radius: 16px; padding: 4px 12px; }
+.wrow { display: grid; grid-template-columns: 4.5rem 1fr 3.2rem; align-items: center; gap: 12px; min-height: 50px; border: 0; background: transparent; cursor: pointer; text-align: left; font-size: 0.95rem; }
+.wrow .wc { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; font-size: 0.85rem; }
+.gridwrap { overflow-x: auto; margin-top: 0.4rem; background: var(--card); border-radius: 16px; padding: 8px; }
 table.week { width: 100%; min-width: 320px; border-collapse: separate; border-spacing: 3px; table-layout: fixed; }
 .week th { font-weight: 600; font-size: 0.85rem; padding: 0.35rem 0; border-radius: 8px; }
 .week th.today { background: var(--blue); color: #fff; }
 .week th.rowh { text-align: right; padding-right: 0.35rem; color: var(--muted); font-variant-numeric: tabular-nums; font-weight: 500; width: 3.2rem; font-size: 0.75rem; }
 .week td { padding: 0; height: 46px; }
-.cell {
-  width: 100%;
-  height: 100%;
-  min-height: 46px;
-  border: 0;
-  border-radius: 8px;
-  background: var(--c);
-  color: var(--on);
-  font-size: 0.72rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0 2px;
-}
+.cell { width: 100%; height: 100%; min-height: 46px; border: 0; border-radius: 8px; background: var(--c); color: var(--on); font-size: 0.72rem; font-weight: 600; cursor: pointer; padding: 0 2px; }
 .legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; margin: 0.9rem 0.25rem 0; font-size: 0.85rem; color: var(--muted); }
 .legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
 .legend i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); display: inline-block; }
 
-.info {
-  order: 4;
-  min-height: 40px;
-  padding: 0 0.85rem;
-  border: 0;
-  border-radius: 999px;
-  background: var(--blue-soft);
-  color: var(--blue);
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-.info:focus-visible, .sdone:focus-visible, .wdet summary:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+/* mood */
+.mood { display: grid; gap: 6px; }
 
-body.lock { overflow: hidden; }
+/* toast */
+#toastbox { position: fixed; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); z-index: 15; pointer-events: none; }
+.toast { pointer-events: auto; max-width: 608px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; background: var(--ink); color: var(--bg); padding: 0.35rem 0.4rem 0.35rem 1rem; border-radius: 14px; font-size: 0.95rem; box-shadow: var(--shadow); }
+.toast span { min-width: 0; overflow-wrap: anywhere; }
+.toast button { flex: none; min-height: 42px; padding: 0 1rem; border: 0; border-radius: 10px; background: transparent; color: var(--bg); font-weight: 700; text-decoration: underline; cursor: pointer; }
+
+/* bottom sheet */
 .overlay { position: fixed; inset: 0; z-index: 20; display: flex; align-items: flex-end; justify-content: center; }
-.scrim { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.4); }
-.sheet {
-  position: relative;
-  width: 100%;
-  max-width: 640px;
-  max-height: calc(100% - env(safe-area-inset-top, 0px) - 24px);
-  background: var(--bg);
-  border-radius: 14px 14px 0 0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  animation: rise 0.25s ease;
-}
+.scrim { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); }
+.sheet { position: relative; width: 100%; max-width: 640px; max-height: calc(100% - env(safe-area-inset-top, 0px) - 24px); background: var(--bg); border-radius: 16px 16px 0 0; display: flex; flex-direction: column; overflow: hidden; animation: rise 0.25s ease; }
 @keyframes rise { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
-.grab { width: 36px; height: 5px; border-radius: 3px; background: var(--sep); margin: 8px auto 0; flex: none; }
-.shead {
-  flex: none;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.5rem max(16px, env(safe-area-inset-right, 0px)) 0.6rem max(16px, env(safe-area-inset-left, 0px));
-  border-bottom: 0.5px solid var(--sep);
-}
+.grab { width: 36px; height: 5px; border-radius: 3px; background: var(--line); margin: 8px auto 0; flex: none; }
+.shead { flex: none; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding: 0.5rem max(16px, env(safe-area-inset-right, 0px)) 0.6rem max(16px, env(safe-area-inset-left, 0px)); border-bottom: 0.5px solid var(--line); }
 .stitle { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
 .ssub { color: var(--muted); font-size: 0.95rem; margin-top: 0.15rem; }
 .sdone { flex: none; min-height: 44px; padding: 0 0.25rem; border: 0; background: transparent; color: var(--blue); font-size: 1.0625rem; font-weight: 600; cursor: pointer; border-radius: 10px; }
-.sbody {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding: 0.25rem max(16px, env(safe-area-inset-right, 0px)) calc(1.5rem + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
-}
+.sbody { overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 0.25rem max(16px, env(safe-area-inset-right, 0px)) calc(1.5rem + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
 .sbody h3 { margin: 1.25rem 0.25rem 0.4rem; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
 .sbody h3 span { text-transform: none; letter-spacing: 0; font-weight: 500; }
 .wsub { margin: 0.75rem 0.25rem 0.35rem; font-size: 0.95rem; font-weight: 600; }
 .wcard { background: var(--card); border-radius: 12px; overflow: hidden; }
 .wlist { list-style: none; margin: 0; padding: 0; }
-.wlist li { padding: 0.7rem 1rem; border-top: 0.5px solid var(--sep); overflow-wrap: anywhere; }
+.wlist li { padding: 0.7rem 1rem; border-top: 0.5px solid var(--line); overflow-wrap: anywhere; }
 .wlist li:first-child { border-top: 0; }
 .wdet { background: var(--card); border-radius: 12px; margin-top: 1.25rem; }
-.wdet summary {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-height: 52px;
-  padding: 0 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  border-radius: 12px;
-}
+.wdet summary { list-style: none; display: flex; align-items: center; gap: 0.5rem; min-height: 52px; padding: 0 1rem; font-weight: 600; cursor: pointer; border-radius: 12px; }
 .wdet summary::-webkit-details-marker { display: none; }
 .wdet summary small { margin-left: auto; color: var(--muted); font-weight: 400; font-size: 0.85rem; text-align: right; }
 .wdet summary::after { content: "\203A"; color: var(--muted); font-size: 1.4rem; line-height: 1; transition: transform 0.2s ease; }
@@ -419,18 +368,27 @@ body.lock { overflow: hidden; }
 .winner { padding: 0 0.75rem 0.75rem; }
 .winner h3 { margin-top: 0.75rem; }
 .winner .wcard { background: var(--bg); }
+.newform { display: grid; gap: 4px; padding-top: 0.75rem; }
+.newform > .fl { margin-top: 10px; }
+.newform input[type="text"] { width: 100%; height: 48px; padding: 0 12px; border: 0; border-radius: 12px; background: var(--card); color: var(--ink); font-size: 1.0625rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { position: relative; }
+.chip input { position: absolute; opacity: 0; pointer-events: none; }
+.chip span { display: flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: 999px; background: var(--card); font-size: 0.95rem; cursor: pointer; }
+.chip input:checked + span { background: var(--blue); color: #fff; font-weight: 600; }
+.chip input:focus-visible + span { outline: 3px solid var(--blue); outline-offset: 2px; }
+.chip small { opacity: 0.75; font-size: 0.78rem; }
 
-@media (prefers-reduced-motion: reduce) { .fill, .item input, .wdet summary::after { transition: none; } .sheet { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .fill, .item input, .chev, .wdet summary::after { transition: none; } .sheet { animation: none; } }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <h1>After the work day</h1>
-  </header>
-  <div class="tabbar"><nav class="tabs" id="tabs" role="tablist" aria-label="Day of the week"></nav></div>
+  <header id="head"></header>
+  <div class="tabbar"><nav class="tabs" id="tabs" role="tablist" aria-label="Choose a day"></nav></div>
   <main id="view"></main>
 </div>
+<div id="toastbox" aria-live="polite"></div>
 <div class="overlay" id="sheet" hidden>
   <div class="scrim" data-close></div>
   <div class="sheet" id="sheetbox" role="dialog" aria-modal="true" aria-labelledby="stitle"></div>
@@ -449,183 +407,20 @@ body.lock { overflow: hidden; }
     study:  {name:'Study', short:'Study', items:['Finish any small stuff','Study']},
     sleep:  {name:'Sleep', short:'Sleep', items:['Sleep']}
   };
+  var WEEKDAYS = 5;
   var DAYS = [
-    {s:'Mon', l:'Monday',    b:[['home',945],['gym',960],['pick',1020],['dinner',1140],['study',1200],['sleep',1350]]},
-    {s:'Tue', l:'Tuesday',   b:[['home',945],['gym',1020],['pick',1080],['dinner',1140],['study',1200],['sleep',1350]]},
-    {s:'Wed', l:'Wednesday', b:[['home',945],['tidy',960],['dinner',1140],['study',1200],['sleep',1350]]},
-    {s:'Thu', l:'Thursday',  b:[['home',960],['gym',1020],['pick',1080],['dinner',1140],['study',1200]]},
-    {s:'Fri', l:'Friday',    b:[['home',945],['gym',960],['pick',1020],['dinner',1140],['study',1200]]}
+    {s:'Mon', l:'Monday',    ini:'M', b:[['home',945],['gym',960],['pick',1020],['dinner',1140],['study',1200],['sleep',1350]]},
+    {s:'Tue', l:'Tuesday',   ini:'T', b:[['home',945],['gym',1020],['pick',1080],['dinner',1140],['study',1200],['sleep',1350]]},
+    {s:'Wed', l:'Wednesday', ini:'W', b:[['home',945],['tidy',960],['dinner',1140],['study',1200],['sleep',1350]]},
+    {s:'Thu', l:'Thursday',  ini:'T', b:[['home',960],['gym',1020],['pick',1080],['dinner',1140],['study',1200]]},
+    {s:'Fri', l:'Friday',    ini:'F', b:[['home',945],['gym',960],['pick',1020],['dinner',1140],['study',1200]]},
+    {s:'Sat', l:'Saturday',  ini:'S', b:[]},
+    {s:'Sun', l:'Sunday',    ini:'S', b:[]}
   ];
-
-  function esc(s) {
-    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-
-  var now = new Date();
-  var jsDay = now.getDay();
-  var todayIdx = (jsDay >= 1 && jsDay <= 5) ? jsDay - 1 : -1;
-  var tab = todayIdx >= 0 ? todayIdx : 0;
-  var editing = false;
-  var undo = null;
-  var undoTimer = null;
-
-  function weekKey() {
-    var d = new Date();
-    var diff = (d.getDay() + 6) % 7;
-    return new Date(d.getFullYear(), d.getMonth(), d.getDate() - diff).toDateString();
-  }
-
-  /* Checks reset every week. */
-  var wk = weekKey();
-  var st = {week: wk, done: {}};
-  try {
-    var raw = JSON.parse(localStorage.getItem('after-work-day-v1'));
-    if (raw && raw.week === wk && raw.done) st = raw;
-  } catch (e) {}
-  function save() { try { localStorage.setItem('after-work-day-v1', JSON.stringify(st)); } catch (e) {} }
-
-  /* Added or removed tasks and notes stay until you change them. */
-  var cu = {items: {}, notes: {}};
-  try {
-    var raw2 = JSON.parse(localStorage.getItem('after-work-day-v2'));
-    if (raw2) { cu.items = raw2.items || {}; cu.notes = raw2.notes || {}; }
-  } catch (e) {}
-  function saveCu() { try { localStorage.setItem('after-work-day-v2', JSON.stringify(cu)); } catch (e) {} }
-
-  function bkey(di, bi) { return di + '-' + bi; }
-  function getItems(di, bi) {
-    var k = bkey(di, bi);
-    if (cu.items[k]) return cu.items[k];
-    return K[DAYS[di].b[bi][0]].items.map(function (t, i) { return {id: 'd' + i, t: t}; });
-  }
-  function setItems(di, bi, list) { cu.items[bkey(di, bi)] = list; saveCu(); }
-  function checkId(di, bi, itemId) { return 'c-' + di + '-' + bi + '-' + itemId; }
-
-  function nowMin() { var d = new Date(); return d.getHours() * 60 + d.getMinutes(); }
-  function fmt(m) { var h = Math.floor(m / 60), mm = m % 60; return (h > 12 ? h - 12 : h) + ':' + (mm < 10 ? '0' : '') + mm; }
-
-  function activeIndex(day) {
-    var n = nowMin(), a = -1;
-    for (var i = 0; i < day.b.length; i++) if (day.b[i][1] <= n) a = i;
-    return a;
-  }
-
-  function progress(di) {
-    var tot = 0, done = 0;
-    DAYS[di].b.forEach(function (blk, bi) {
-      getItems(di, bi).forEach(function (it) { tot++; if (st.done[checkId(di, bi, it.id)]) done++; });
-    });
-    return {tot: tot, done: done};
-  }
-
-  function overdue(di) {
-    if (di !== todayIdx) return [];
-    var n = nowMin(), day = DAYS[di], list = [];
-    day.b.forEach(function (blk, bi) {
-      var end = bi + 1 < day.b.length ? day.b[bi + 1][1] : 1440;
-      if (end > n) return;
-      var left = getItems(di, bi).filter(function (it) { return !st.done[checkId(di, bi, it.id)]; }).length;
-      if (left) list.push(K[blk[0]].name + ' (' + left + ')');
-    });
-    return list;
-  }
-
-  function statusHtml(di) {
-    var day = DAYS[di], p = progress(di), line = day.l, sub = '';
-    if (di === todayIdx) {
-      var ai = activeIndex(day);
-      if (ai === -1) {
-        line = 'Next up: ' + K[day.b[0][0]].name + ' at ' + fmt(day.b[0][1]);
-        sub = 'Today is ' + day.l;
-      } else {
-        line = 'Now: ' + K[day.b[ai][0]].name;
-        if (ai + 1 < day.b.length) sub = 'Next: ' + K[day.b[ai + 1][0]].name + ' at ' + fmt(day.b[ai + 1][1]);
-        else sub = 'That is the last block today';
-      }
-    } else if (todayIdx === -1) {
-      sub = 'Weekend now. This is how ' + day.l + ' runs.';
-    } else {
-      sub = 'Not today, so nothing is marked as current.';
-    }
-    var pct = p.tot ? Math.round(p.done / p.tot * 100) : 0;
-    return '<div class="status"><div><div class="line">' + line + '</div><div class="sub">' + sub + '</div></div>' +
-      '<div class="meter"><div class="track"><div class="fill" style="width:' + pct + '%"></div></div>' +
-      '<div class="count">' + p.done + ' of ' + p.tot + ' done</div></div></div>';
-  }
-
-  function notesHtml(key, label) {
-    return '<section class="notes"><label for="notes">' + label + '</label>' +
-      '<textarea id="notes" data-note="' + key + '" placeholder="Homework due, things to remember, how the day went">' + esc(cu.notes[key] || '') + '</textarea>' +
-      '<p class="hint">Saved on this device as you type.</p></section>';
-  }
-
-  function toastHtml() {
-    return undo ? '<div class="toast" role="status"><span>Removed “' + esc(undo.item.t) + '”</span><button type="button" id="undo">Undo</button></div>' : '';
-  }
-
-  function dayHtml(di) {
-    var day = DAYS[di];
-    var ai = di === todayIdx ? activeIndex(day) : -1;
-    var out = statusHtml(di);
-    var late = overdue(di);
-    if (late.length) out += '<div class="alert" role="status"><strong>Not checked off yet</strong><span>' + esc(late.join(', ')) + '</span></div>';
-    out += '<div class="tools"><button class="btn" id="edit" type="button" aria-pressed="' + editing + '">' + (editing ? 'Done editing' : 'Add or remove tasks') + '</button>' +
-      '<button class="btn reset" id="reset" type="button">Clear checks</button></div>';
-    out += toastHtml();
-    out += '<div class="blocks">';
-    day.b.forEach(function (blk, bi) {
-      var k = K[blk[0]];
-      var items = getItems(di, bi);
-      out += '<section class="blk' + (bi === ai ? ' now' : '') + '" style="--c:var(--' + blk[0] + ')">' +
-        '<div class="bhead"><span class="time">' + TIME[blk[1]] + '</span><h2>' + k.name + '</h2>' +
-        (bi === ai ? '<span class="pill">Now</span>' : '') +
-        (blk[0] === 'gym' ? '<button class="info" type="button" data-info="' + di + '" aria-label="Workout details for ' + day.l + '">Workout \u203a</button>' : '') +
-        '</div><ul class="items">';
-      items.forEach(function (it) {
-        var cid = checkId(di, bi, it.id);
-        out += '<li><label class="item"><input type="checkbox" id="' + cid + '"' + (st.done[cid] ? ' checked' : '') + '><span>' + esc(it.t) + '</span></label>';
-        if (editing) out += '<button class="minus" type="button" data-rm="' + di + '|' + bi + '|' + it.id + '" aria-label="Remove ' + esc(it.t) + '">−</button>';
-        out += '</li>';
-      });
-      out += '</ul>';
-      if (!items.length && !editing) out += '<p class="empty">No tasks here.</p>';
-      if (editing) {
-        out += '<form class="addrow" data-add="' + di + '|' + bi + '"><input type="text" id="add-' + di + '-' + bi + '" maxlength="80" autocomplete="off" placeholder="Add a task" aria-label="New task for ' + k.name + '">' +
-          '<button class="plus" type="submit" aria-label="Add task to ' + k.name + '">+</button></form>';
-      }
-      out += '</section>';
-    });
-    out += '</div>';
-    if (di >= 3) out += '<p class="note">No bedtime is set on the chart for ' + day.l + '.</p>';
-    out += notesHtml(String(di), 'Notes for ' + day.l);
-    return out;
-  }
-
-  function weekHtml() {
-    var starts = {};
-    DAYS.forEach(function (d) { d.b.forEach(function (b) { starts[b[1]] = 1; }); });
-    var rows = Object.keys(starts).map(Number).sort(function (a, b) { return a - b; });
-    var out = '<div class="gridwrap"><table class="week"><thead><tr><th class="rowh" scope="col"></th>';
-    DAYS.forEach(function (d, i) { out += '<th scope="col"' + (i === todayIdx ? ' class="today"' : '') + '>' + d.s + '</th>'; });
-    out += '</tr></thead><tbody>';
-    rows.forEach(function (r) {
-      out += '<tr><th class="rowh" scope="row">' + ROWH[r] + '</th>';
-      DAYS.forEach(function (d, di) {
-        var hit = null;
-        d.b.forEach(function (b) { if (b[1] === r) hit = b; });
-        if (hit) out += '<td><button class="cell" type="button" data-day="' + di + '" style="--c:var(--' + hit[0] + ')" aria-label="' + d.l + ' ' + ROWH[r] + ' ' + K[hit[0]].name + '">' + K[hit[0]].short + '</button></td>';
-        else out += '<td></td>';
-      });
-      out += '</tr>';
-    });
-    out += '</tbody></table></div><div class="legend">';
-    ['home','gym','pick','tidy','dinner','study','sleep'].forEach(function (k) {
-      out += '<span style="--c:var(--' + k + ')"><i></i>' + K[k].name + '</span>';
-    });
-    out += '</div><p class="note">Tap any block to open that day.</p>';
-    out += notesHtml('week', 'Notes for the week');
-    return out;
-  }
+  var MON = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  var MONL = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var MOODS = ['Rough','Okay','Good','Great'];
+  var DOTS = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>';
 
   /* Workout plans, copied from the Workout Schedule file. */
   var WORK = {
@@ -670,41 +465,358 @@ body.lock { overflow: hidden; }
     {h: 'Sprint drills', items: ['A marches 2x20 yds', 'A skips 2x20 yds', "A 2's 2x20 yds", "A 3's 2x20 yds", 'High knees hands on hips 2x20 yds', 'Power skips', 'Straight leg bounds', 'Power Bounds', 'Quick Feet', 'Pogos 10m each leg 20 meters total (down and back)', 'load - jump - pogo - land split 2x6 ( 3 lands ea way', 'Bent knee pogo split lunge 2x6', 'Sprinter jumps 2x6', 'Heel Walks 2x30m']}
   ];
 
-  function wlist(items) {
-    return '<ul class="wlist">' + items.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>';
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
+  function uid(p) { return p + Date.now().toString(36) + Math.floor(Math.random() * 1296).toString(36); }
+
+  /* ---------- dates ---------- */
+  var now0 = new Date();
+  var jsDay = now0.getDay();
+  var weekend = (jsDay === 0 || jsDay === 6);
+  var ws = weekend
+    ? new Date(now0.getFullYear(), now0.getMonth(), now0.getDate() + (jsDay === 0 ? 1 : 2))
+    : new Date(now0.getFullYear(), now0.getMonth(), now0.getDate() - (jsDay - 1));
+  var todayIdx = weekend ? -1 : jsDay - 1;
+  function dateOf(i) { return new Date(ws.getFullYear(), ws.getMonth(), ws.getDate() + i); }
+  function iso(d) { function p(n) { return (n < 10 ? '0' : '') + n; } return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()); }
+  var wk = iso(ws);
+  function nowMin() { var d = new Date(); return d.getHours() * 60 + d.getMinutes(); }
+  function pm(m) { var h = Math.floor(m / 60), mm = m % 60; return (h > 12 ? h - 12 : h) + ':' + (mm < 10 ? '0' : '') + mm + ' PM'; }
+
+  /* ---------- saved state ---------- */
+  var st = {week: wk, done: {}};   /* checks reset every week */
+  try {
+    var raw = JSON.parse(localStorage.getItem('after-work-day-v1'));
+    if (raw && raw.week === wk && raw.done) st = raw;
+  } catch (e) {}
+  function save() { try { localStorage.setItem('after-work-day-v1', JSON.stringify(st)); } catch (e) {} }
+
+  var cu = {items: {}, notes: {}, refl: {}, mood: {}};   /* tasks, notes and reflections stay until changed */
+  try {
+    var raw2 = JSON.parse(localStorage.getItem('after-work-day-v2'));
+    if (raw2) { cu.items = raw2.items || {}; cu.notes = raw2.notes || {}; cu.refl = raw2.refl || {}; cu.mood = raw2.mood || {}; }
+  } catch (e) {}
+  function saveCu() { try { localStorage.setItem('after-work-day-v2', JSON.stringify(cu)); } catch (e) {} }
+
+  /* ---------- tasks ---------- */
+  function bkey(di, bi) { return di + '-' + bi; }
+  function full(di, bi) {
+    var k = bkey(di, bi);
+    if (cu.items[k]) return cu.items[k].slice();
+    return K[DAYS[di].b[bi][0]].items.map(function (t, i) { return {id: 'd' + i, t: t}; });
+  }
+  function setFull(di, bi, list) { cu.items[bkey(di, bi)] = list; saveCu(); }
+  function getItems(di, bi) { return full(di, bi).filter(function (it) { return !it.w || it.w === wk; }); }
+  function checkId(di, bi, id) { return 'c-' + di + '-' + bi + '-' + id; }
+  function idxIn(list, id) { for (var i = 0; i < list.length; i++) if (list[i].id === id) return i; return -1; }
+
+  function dayMeta(di) {
+    var day = DAYS[di], n = nowMin(), isToday = di === todayIdx, out = [];
+    day.b.forEach(function (blk, bi) {
+      var items = getItems(di, bi), done = 0;
+      items.forEach(function (it) { if (st.done[checkId(di, bi, it.id)]) done++; });
+      var start = blk[1], end = bi + 1 < day.b.length ? day.b[bi + 1][1] : 1440, s = 'later';
+      if (items.length && done === items.length) s = 'done';
+      else if (isToday) { if (n >= end) s = 'overdue'; else if (n >= start) s = 'now'; }
+      out.push({bi: bi, kind: blk[0], start: start, end: end, total: items.length, done: done, s: s, items: items});
+    });
+    if (isToday) {
+      for (var i = 0; i < out.length; i++) { if (out[i].s === 'later' && out[i].start > n) { out[i].s = 'next'; break; } }
+    }
+    return out;
+  }
+  function totals(meta) {
+    var t = 0, d = 0;
+    meta.forEach(function (m) { t += m.total; d += m.done; });
+    return {tot: t, done: d};
+  }
+  function find(meta, s) { for (var i = 0; i < meta.length; i++) if (meta[i].s === s) return meta[i]; return null; }
+
+  /* ---------- view state ---------- */
+  var tab = todayIdx >= 0 ? todayIdx : 0;   /* 0-6 = a day, 7 = week overview */
+  var openOv = {};
+  var addKey = null;
+  var menuRow = null;
+  var menuOpen = false;
+  var undo = null, undoTimer = null;
+
+  function initOpen(di) {
+    if (di >= WEEKDAYS) return;
+    dayMeta(di).forEach(function (m) {
+      var k = bkey(di, m.bi);
+      if (openOv[k] === undefined) openOv[k] = m.s !== 'done';
+    });
+  }
+
+  /* ---------- header ---------- */
+  function greeting() { var h = new Date().getHours(); return h < 12 ? 'Good morning.' : (h < 17 ? 'Good afternoon.' : 'Good evening.'); }
+  function dayMessage(di) {
+    var day = DAYS[di];
+    if (di >= WEEKDAYS) return 'Nothing is planned. Enjoy the break.';
+    var meta = dayMeta(di), t = totals(meta);
+    if (todayIdx === -1) return 'Here is the plan for ' + day.l + '.';
+    if (di < todayIdx) return 'Here is how ' + day.l + ' went.';
+    if (di > todayIdx) return 'Here is the plan for ' + day.l + '.';
+    if (t.tot && t.done === t.tot) return 'You are all caught up.';
+    if (t.done === 0) return 'Make a little progress today.';
+    if (find(meta, 'now')) return 'One thing at a time.';
+    return 'You are ready for your next block.';
+  }
+  function headHtml() {
+    var eyebrow, msg;
+    if (tab === 7) {
+      var a = dateOf(0), b = dateOf(6);
+      eyebrow = 'WEEK OF ' + MON[a.getMonth()] + ' ' + a.getDate() + '–' + (a.getMonth() === b.getMonth() ? '' : MON[b.getMonth()] + ' ') + b.getDate();
+      msg = 'Your plan for the week.';
+    } else {
+      var d = dateOf(tab);
+      eyebrow = DAYS[tab].l.toUpperCase() + ' · ' + MON[d.getMonth()] + ' ' + d.getDate();
+      msg = dayMessage(tab);
+    }
+    return '<div class="app">After the work day</div><div class="eyebrow">' + eyebrow + '</div><h1>' + greeting() + '</h1><p class="msg">' + esc(msg) + '</p>';
+  }
+  function stripHtml() {
+    var out = '';
+    DAYS.forEach(function (d, i) {
+      var dt = dateOf(i);
+      var cls = 'day' + (i === tab ? ' sel' : '') + (i === todayIdx ? ' today' : '') + (todayIdx >= 0 && i < todayIdx ? ' past' : '') + (i >= WEEKDAYS ? ' off' : '');
+      out += '<button class="' + cls + '" role="tab" type="button" data-tab="' + i + '" aria-selected="' + (i === tab) + '" aria-label="' + d.l + ', ' + MONL[dt.getMonth()] + ' ' + dt.getDate() + (i === todayIdx ? ', today' : '') + '">' +
+        '<span class="dl">' + d.ini + '</span><span class="dn">' + dt.getDate() + '</span><span class="dd"></span></button>';
+    });
+    return '<div class="strip">' + out + '</div>';
+  }
+
+  /* ---------- day view ---------- */
+  function statusCard(di, meta, t) {
+    var isToday = di === todayIdx, lab = 'First up', pick = null, nm, sub;
+    if (isToday) {
+      pick = find(meta, 'now'); lab = 'Now';
+      if (!pick) { pick = find(meta, 'next'); lab = 'Up next'; }
+      if (!pick) {
+        if (t.tot && t.done === t.tot) lab = 'All done';
+        else { pick = find(meta, 'overdue'); lab = 'Still open'; }
+      }
+    } else if (meta.length) { pick = meta[0]; }
+    if (pick) { nm = K[pick.kind].name; sub = TIME[pick.start] + ' PM'; }
+    else if (isToday && t.tot && t.done === t.tot) { nm = 'Nothing left'; sub = 'Everything is checked off'; }
+    else { nm = 'Nothing scheduled'; sub = ''; }
+    var pct = t.tot ? Math.round(t.done / t.tot * 100) : 0;
+    var plabel = isToday ? 'Today’s progress' : DAYS[di].l + '’s progress';
+    return '<section class="status" aria-label="Progress"><div class="srow">' +
+      '<div class="sc"><div class="lbl">Completed</div><div class="big">' + t.done + '<span>/' + t.tot + '</span></div><div class="sub">Tasks finished</div></div>' +
+      '<div class="sc"><div class="lbl">' + lab + '</div><div class="nm">' + esc(nm) + '</div><div class="sub">' + esc(sub) + '</div></div></div>' +
+      '<div><div class="ptop"><span>' + plabel + '</span><span>' + pct + '%</span></div>' +
+      '<span class="track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '" aria-label="' + plabel + '"><span class="fill" style="width:' + pct + '%"></span></span></div></section>';
+  }
+
+  function toolbar(di) {
+    var out = '<div class="tools">';
+    if (DAYS[di].b.length) out += '<button class="primary" type="button" data-act="newtask">+ Add task</button>';
+    if (todayIdx >= 0 && tab !== todayIdx) out += '<button class="ghost" type="button" data-act="today">Today</button>';
+    if (DAYS[di].b.length) {
+      out += '<button class="kebab" type="button" data-act="menu" aria-haspopup="true" aria-expanded="' + menuOpen + '" aria-label="More actions">' + DOTS + '</button>';
+      if (menuOpen) {
+        out += '<div class="menu" role="menu">' +
+          '<button type="button" role="menuitem" data-act="expandall">Expand all blocks</button>' +
+          '<button type="button" role="menuitem" data-act="collapseall">Collapse all blocks</button>' +
+          '<button type="button" role="menuitem" class="danger" data-act="clear">Clear checks for ' + DAYS[di].l + '</button>' +
+          '<button type="button" role="menuitem" class="danger" data-act="restore">Restore original tasks</button></div>';
+      }
+    }
+    return out + '</div>';
+  }
+
+  var SL = {done: '✓ Done', now: '● Now', next: 'Up next', overdue: '! Overdue', later: 'Not started'};
+
+  function rowMenuHtml(di, m, it, idx) {
+    var days = DAYS[di].b, id = it.id, base = di + '|' + m.bi + '|' + id;
+    var upLabel = idx > 0 ? 'Move up' : (m.bi > 0 ? 'Move to ' + K[days[m.bi - 1][0]].name : 'Move up');
+    var dnLabel = idx < m.items.length - 1 ? 'Move down' : (m.bi < days.length - 1 ? 'Move to ' + K[days[m.bi + 1][0]].name : 'Move down');
+    var canUp = idx > 0 || m.bi > 0, canDn = idx < m.items.length - 1 || m.bi < days.length - 1;
+    var p = it.p || 'normal';
+    function pb(v, l) { return '<button class="so" type="button" data-pri="' + base + '|' + v + '" aria-pressed="' + (p === v) + '">' + l + '</button>'; }
+    return '<li class="rowmenu" role="group" aria-label="Task options">' +
+      '<div><label class="fl" for="rn-' + id + '">Task name</label><input type="text" id="rn-' + id + '" data-rename="' + base + '" value="' + esc(it.t) + '" maxlength="80" autocomplete="off"></div>' +
+      '<div><span class="fl">Priority</span><div class="seg" role="group" aria-label="Priority">' + pb('low', 'Low') + pb('normal', 'Normal') + pb('important', 'Important') + '</div></div>' +
+      '<div class="acts"><button type="button" data-mv="' + base + '|-1"' + (canUp ? '' : ' disabled') + '>' + esc(upLabel) + '</button>' +
+      '<button type="button" data-mv="' + base + '|1"' + (canDn ? '' : ' disabled') + '>' + esc(dnLabel) + '</button>' +
+      '<button type="button" class="danger" data-rm="' + base + '">Remove</button></div></li>';
+  }
+
+  function rowHtml(di, m, it, idx) {
+    var cid = checkId(di, m.bi, it.id), on = menuRow === cid;
+    var tag = it.p === 'important' ? '<span class="tag imp">! Important</span>' : (it.p === 'low' ? '<span class="tag low">Low</span>' : '');
+    var out = '<li class="row"><label class="item"><input type="checkbox" id="' + cid + '"' + (st.done[cid] ? ' checked' : '') + '><span class="tx">' + esc(it.t) + '</span>' + tag + '</label>' +
+      '<button class="more" type="button" data-more="' + cid + '" aria-expanded="' + on + '" aria-label="Options for ' + esc(it.t) + '">' + DOTS + '</button></li>';
+    if (on) out += rowMenuHtml(di, m, it, idx);
+    return out;
+  }
+
+  function addFormHtml(di, bi) {
+    return '<form class="addrow" data-add="' + di + '|' + bi + '"><input type="text" id="add-' + di + '-' + bi + '" maxlength="80" autocomplete="off" placeholder="Task name" aria-label="New task name">' +
+      '<button class="addbtn" type="submit">Add</button></form>' +
+      '<details class="opts"><summary>Options</summary>' +
+      '<div class="seg" role="group" aria-label="Priority"><label class="so"><input type="radio" name="pri" value="low"><span>Low</span></label><label class="so"><input type="radio" name="pri" value="normal" checked><span>Normal</span></label><label class="so"><input type="radio" name="pri" value="important"><span>Important</span></label></div>' +
+      '<div class="seg" role="group" aria-label="Repeat"><label class="so"><input type="radio" name="scope" value="week" checked><span>Every week</span></label><label class="so"><input type="radio" name="scope" value="once"><span>This week only</span></label></div></details>';
+  }
+
+  function blockHtml(di, m) {
+    var k = K[m.kind], key = bkey(di, m.bi), open = openOv[key] !== false;
+    var label = (m.s === 'later' && m.done > 0) ? 'In progress' : SL[m.s];
+    var nextTask = '';
+    if (!open && m.s !== 'done') {
+      for (var i = 0; i < m.items.length; i++) {
+        if (!st.done[checkId(di, m.bi, m.items[i].id)]) { nextTask = m.items[i].t; break; }
+      }
+    }
+    var meta = TIME[m.start] + ' · ' + (m.total ? m.done + ' of ' + m.total : 'No tasks') + (nextTask ? ' · Next: ' + esc(nextTask) : '');
+    var out = '<section class="tl s-' + m.s + '" style="--c:var(--' + m.kind + ')">' +
+      '<div class="rail"><span class="node" aria-hidden="true"></span></div><div class="bcard">' +
+      '<button class="bt" type="button" data-toggle="' + key + '" aria-expanded="' + open + '" aria-controls="b-' + key + '">' +
+      '<span class="bl"><span class="bn"><i class="dot" aria-hidden="true"></i>' + esc(k.name) + '</span><span class="bm" style="display:block">' + meta + '</span></span>' +
+      '<span class="pill st-' + (m.s === 'later' && m.done > 0 ? 'later' : m.s) + '">' + label + '</span><span class="chev" aria-hidden="true"></span></button>' +
+      '<div id="b-' + key + '"' + (open ? '' : ' hidden') + '>';
+    if (m.items.length) {
+      out += '<ul class="items">' + m.items.map(function (it, idx) { return rowHtml(di, m, it, idx); }).join('') + '</ul>';
+    }
+    out += '<div class="bfoot"><button class="link" type="button" data-addtoggle="' + key + '">' + (addKey === key ? 'Cancel' : '+ Add task') + '</button>' +
+      (m.kind === 'gym' ? '<button class="link" type="button" data-info="' + di + '">Workout plan ›</button>' : '') + '</div>';
+    if (addKey === key) out += addFormHtml(di, m.bi);
+    return out + '</div></div></section>';
+  }
+
+  function reflectionHtml(di) {
+    var dk = iso(dateOf(di));
+    var notes = cu.notes[dk] !== undefined ? cu.notes[dk] : (cu.notes[String(di)] || '');
+    var refl = cu.refl[dk] || '';
+    var mood = cu.mood[dk] || '';
+    var mb = MOODS.map(function (mm) { return '<button class="so" type="button" data-mood="' + mm + '" aria-pressed="' + (mood === mm) + '">' + mm + '</button>'; }).join('');
+    return '<section class="notes"><h2>Your reflection</h2>' +
+      '<div><label class="fl" for="notes">Things to remember</label><textarea id="notes" data-note="' + dk + '" placeholder="Homework due, things to bring, reminders">' + esc(notes) + '</textarea></div>' +
+      '<div><label class="fl" for="refl">How did today go?</label><textarea id="refl" data-refl="' + dk + '" placeholder="What went well? What would you change?">' + esc(refl) + '</textarea></div>' +
+      '<div class="mood"><span class="fl" style="color:var(--ink);font-size:0.95rem">How are you feeling?</span><div class="seg" role="group" aria-label="How are you feeling?">' + mb + '</div></div>' +
+      '<p class="hint">All optional. Saved on this device as you type.</p></section>';
+  }
+
+  function dayHtml(di) {
+    var day = DAYS[di], meta = dayMeta(di), t = totals(meta), isToday = di === todayIdx, out = '';
+    out += statusCard(di, meta, t);
+    if (isToday) {
+      var late = meta.filter(function (m) { return m.s === 'overdue'; }).map(function (m) { return K[m.kind].name + ' (' + (m.total - m.done) + ')'; });
+      if (late.length) out += '<div class="alert" role="status"><strong>Still open from earlier</strong><span>' + esc(late.join(', ')) + '</span></div>';
+      if (t.tot && t.done === t.tot) {
+        out += '<div class="finish" role="status"><strong>You are all caught up.</strong><span>You finished everything you planned.</span>' +
+          (todayIdx < 6 ? '<button class="link" type="button" data-tab="' + (todayIdx + 1) + '">Look at tomorrow ›</button>' : '') + '</div>';
+      }
+    }
+    out += toolbar(di);
+    out += '<div class="sechead"><h2>Your timeline</h2><button class="link" type="button" data-act="week">View week ›</button></div>';
+    if (!day.b.length) {
+      out += '<div class="empty"><strong>Nothing planned for ' + day.l + '.</strong><p>Your schedule covers Monday to Friday. Use the notes below for anything you want to remember.</p></div>';
+    } else {
+      out += '<div class="blocks">' + meta.map(function (m) { return blockHtml(di, m); }).join('') + '</div>';
+      if (di >= 3 && di < WEEKDAYS) out += '<p class="note">No bedtime is set on the chart for ' + day.l + '.</p>';
+    }
+    return out + reflectionHtml(di);
+  }
+
+  /* ---------- week view ---------- */
+  function weekHtml() {
+    var tt = 0, dd = 0, active = 0, bt = 0, bd = 0, rows = '';
+    for (var di = 0; di < WEEKDAYS; di++) {
+      var meta = dayMeta(di), t = totals(meta);
+      tt += t.tot; dd += t.done; if (t.done > 0) active++;
+      meta.forEach(function (m) { if (m.total) { bt++; if (m.s === 'done') bd++; } });
+      var pct = t.tot ? Math.round(t.done / t.tot * 100) : 0;
+      rows += '<button class="wrow" type="button" data-tab="' + di + '"><span>' + DAYS[di].s + ' ' + dateOf(di).getDate() + '</span>' +
+        '<span class="track"><span class="fill" style="width:' + pct + '%"></span></span><span class="wc">' + t.done + '/' + t.tot + '</span></button>';
+    }
+    var p = tt ? Math.round(dd / tt * 100) : 0;
+    var msg = p === 0 ? 'Nothing is checked off yet this week. Pick one block to start with.'
+      : (p < 50 ? 'A steady start. A few small wins add up.'
+      : (p < 100 ? 'You have finished most of what you planned.' : 'You finished everything you planned this week.'));
+    var out = '<div class="metrics">' +
+      '<div class="metric"><div class="big">' + p + '<span>%</span></div><div class="lbl">Tasks done</div></div>' +
+      '<div class="metric"><div class="big">' + active + '<span>/' + WEEKDAYS + '</span></div><div class="lbl">Active days</div></div>' +
+      '<div class="metric"><div class="big">' + bd + '<span>/' + bt + '</span></div><div class="lbl">Blocks done</div></div></div>' +
+      '<p class="note">' + msg + '</p>';
+    out += '<div class="sechead"><h2>Day by day</h2></div><div class="wrows">' + rows + '</div>';
+
+    var starts = {};
+    for (var i = 0; i < WEEKDAYS; i++) DAYS[i].b.forEach(function (b) { starts[b[1]] = 1; });
+    var rr = Object.keys(starts).map(Number).sort(function (a, b) { return a - b; });
+    var g = '<div class="gridwrap"><table class="week"><thead><tr><th class="rowh" scope="col"></th>';
+    for (var c = 0; c < WEEKDAYS; c++) g += '<th scope="col"' + (c === todayIdx ? ' class="today"' : '') + '>' + DAYS[c].s + '</th>';
+    g += '</tr></thead><tbody>';
+    rr.forEach(function (r) {
+      g += '<tr><th class="rowh" scope="row">' + ROWH[r] + '</th>';
+      for (var d2 = 0; d2 < WEEKDAYS; d2++) {
+        var hit = null;
+        DAYS[d2].b.forEach(function (b) { if (b[1] === r) hit = b; });
+        if (hit) g += '<td><button class="cell" type="button" data-tab="' + d2 + '" style="--c:var(--' + hit[0] + ')" aria-label="' + DAYS[d2].l + ' ' + ROWH[r] + ' ' + K[hit[0]].name + '">' + K[hit[0]].short + '</button></td>';
+        else g += '<td></td>';
+      }
+      g += '</tr>';
+    });
+    g += '</tbody></table></div><div class="legend">';
+    ['home', 'gym', 'pick', 'tidy', 'dinner', 'study', 'sleep'].forEach(function (kk) {
+      g += '<span style="--c:var(--' + kk + ')"><i></i>' + K[kk].name + '</span>';
+    });
+    g += '</div>';
+    out += '<div class="sechead"><h2>Schedule at a glance</h2></div>' + g + '<p class="note">Tap any block to open that day.</p>';
+    var wkey = 'week-' + wk;
+    var wn = cu.notes[wkey] !== undefined ? cu.notes[wkey] : (cu.notes.week || '');
+    out += '<section class="notes"><h2>Notes for the week</h2><div><label class="fl" for="notes">Anything to remember</label>' +
+      '<textarea id="notes" data-note="' + wkey + '" placeholder="Plans, goals, things to carry into next week">' + esc(wn) + '</textarea></div><p class="hint">Saved on this device as you type.</p></section>';
+    return out;
+  }
+
+  /* ---------- sheets ---------- */
+  function wlist(items) { return '<ul class="wlist">' + items.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>'; }
   function wsec(s) {
     var out = '<h3>' + esc(s.h) + (s.note ? ' <span>' + esc(s.note) + '</span>' : '') + '</h3>';
     if (s.items) out += '<div class="wcard">' + wlist(s.items) + '</div>';
-    if (s.groups) s.groups.forEach(function (g) {
-      out += '<div class="wsub">' + esc(g.g) + '</div><div class="wcard">' + wlist(g.items) + '</div>';
-    });
+    if (s.groups) s.groups.forEach(function (g) { out += '<div class="wsub">' + esc(g.g) + '</div><div class="wcard">' + wlist(g.items) + '</div>'; });
     return out;
   }
   function wdet(title, sub, secs) {
-    return '<details class="wdet"><summary><span>' + esc(title) + '</span><small>' + esc(sub) + '</small></summary><div class="winner">' +
-      secs.map(wsec).join('') + '</div></details>';
+    return '<details class="wdet"><summary><span>' + esc(title) + '</span><small>' + esc(sub) + '</small></summary><div class="winner">' + secs.map(wsec).join('') + '</div></details>';
   }
-  function sheetHtml(di) {
+  function sheetShell(title, sub, doneLabel, body) {
+    return '<div class="grab"></div><div class="shead"><div><div class="stitle" id="stitle">' + esc(title) + '</div><div class="ssub">' + esc(sub) + '</div></div>' +
+      '<button class="sdone" id="sdone" type="button">' + doneLabel + '</button></div><div class="sbody">' + body + '</div>';
+  }
+  function workoutHtml(di) {
     var day = DAYS[di], w = WORK[DAYMAP[di]];
-    var out = '<div class="grab"></div><div class="shead"><div><div class="stitle" id="stitle">' + (w ? esc(w.title) : 'Workout') + '</div>' +
-      '<div class="ssub">' + (w ? 'Planned for ' + esc(w.when) : 'No lift planned for ' + esc(day.l)) + '</div></div>' +
-      '<button class="sdone" id="sdone" type="button">Done</button></div><div class="sbody">';
-    if (w) out += w.sections.map(wsec).join('');
-    out += wdet('Every day', 'Core + shin splint work', EVERY) + wdet('Sprint drills', 'Extra', SPRINT);
-    return out + '</div>';
+    var body = (w ? w.sections.map(wsec).join('') : '') + wdet('Every day', 'Core + shin splint work', EVERY) + wdet('Sprint drills', 'Extra', SPRINT);
+    return sheetShell(w ? w.title : 'Workout', w ? 'Planned for ' + w.when : 'No lift planned for ' + day.l, 'Done', body);
+  }
+  function newTaskHtml(di) {
+    var meta = dayMeta(di);
+    var def = find(meta, 'now') || find(meta, 'next') || find(meta, 'overdue') || meta[0];
+    var chips = meta.map(function (m) {
+      return '<label class="chip"><input type="radio" name="blk" value="' + m.bi + '"' + (m === def ? ' checked' : '') + '><span>' + esc(K[m.kind].name) + ' <small>' + TIME[m.start].split('–')[0] + '</small></span></label>';
+    }).join('');
+    var body = '<form class="newform" data-new="' + di + '">' +
+      '<label class="fl" for="nt-name">Task name</label><input type="text" id="nt-name" maxlength="80" autocomplete="off" placeholder="Pack gym bag">' +
+      '<span class="fl">Add to block</span><div class="chips" role="group" aria-label="Add to block">' + chips + '</div>' +
+      '<span class="fl">Priority</span><div class="seg" role="group" aria-label="Priority"><label class="so"><input type="radio" name="pri" value="low"><span>Low</span></label><label class="so"><input type="radio" name="pri" value="normal" checked><span>Normal</span></label><label class="so"><input type="radio" name="pri" value="important"><span>Important</span></label></div>' +
+      '<span class="fl">Repeat</span><div class="seg" role="group" aria-label="Repeat"><label class="so"><input type="radio" name="scope" value="week" checked><span>Every week</span></label><label class="so"><input type="radio" name="scope" value="once"><span>This week only</span></label></div>' +
+      '<button class="primary wide" type="submit">Add task</button></form>';
+    return sheetShell('New task', 'For ' + DAYS[di].l, 'Cancel', body);
   }
 
   var overlay = document.getElementById('sheet');
   var sheetBox = document.getElementById('sheetbox');
   var lastOpener = null;
-  function openSheet(di, opener) {
+  function openSheet(html, opener, focusId) {
     lastOpener = opener || null;
-    sheetBox.innerHTML = sheetHtml(di);
+    sheetBox.innerHTML = html;
     overlay.hidden = false;
     document.body.classList.add('lock');
-    var done = document.getElementById('sdone');
-    if (done) done.focus();
+    var f = focusId ? document.getElementById(focusId) : document.getElementById('sdone');
+    if (f) f.focus();
   }
   function closeSheet() {
     if (overlay.hidden) return;
@@ -713,76 +825,199 @@ body.lock { overflow: hidden; }
     if (lastOpener && document.body.contains(lastOpener)) lastOpener.focus();
     lastOpener = null;
   }
-  overlay.addEventListener('click', function (e) {
-    if (e.target.hasAttribute('data-close') || e.target.id === 'sdone') closeSheet();
-  });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeSheet(); });
 
+  /* ---------- toast with undo ---------- */
+  var toastBox = document.getElementById('toastbox');
+  function clearUndo() { if (undoTimer) { clearTimeout(undoTimer); undoTimer = null; } undo = null; toastBox.innerHTML = ''; }
+  function showToast(label, restore) {
+    clearUndo();
+    undo = restore || null;
+    toastBox.innerHTML = '<div class="toast"><span>' + esc(label) + '</span>' + (restore ? '<button type="button" id="undo">Undo</button>' : '') + '</div>';
+    undoTimer = setTimeout(clearUndo, 8000);
+  }
+  toastBox.addEventListener('click', function (e) {
+    if (e.target.id === 'undo' && undo) { var r = undo; clearUndo(); r(); render(); }
+  });
+
+  /* ---------- changes ---------- */
+  function addItem(di, bi, text, p, scope) {
+    var l = full(di, bi);
+    var it = {id: uid('u'), t: text};
+    if (p && p !== 'normal') it.p = p;
+    if (scope === 'once') it.w = wk;
+    l.push(it);
+    setFull(di, bi, l);
+    return it;
+  }
+  function removeItem(di, bi, id) {
+    var l = full(di, bi), idx = idxIn(l, id);
+    if (idx < 0) return;
+    var item = l.splice(idx, 1)[0];
+    setFull(di, bi, l);
+    var ck = checkId(di, bi, id), had = !!st.done[ck];
+    delete st.done[ck];
+    save();
+    menuRow = null;
+    showToast('Removed “' + item.t + '”', function () {
+      var l2 = full(di, bi);
+      l2.splice(Math.min(idx, l2.length), 0, item);
+      setFull(di, bi, l2);
+      if (had) { st.done[ck] = 1; save(); }
+    });
+  }
+  function moveItem(di, bi, id, dir) {
+    var vis = getItems(di, bi), i = idxIn(vis, id);
+    if (i < 0) return;
+    var lst = full(di, bi), j = i + dir;
+    if (j >= 0 && j < vis.length) {
+      var a = idxIn(lst, vis[i].id), b = idxIn(lst, vis[j].id), tmp = lst[a];
+      lst[a] = lst[b]; lst[b] = tmp;
+      setFull(di, bi, lst);
+    } else {
+      var nb = bi + dir;
+      if (nb < 0 || nb >= DAYS[di].b.length) return;
+      var item = lst.splice(idxIn(lst, id), 1)[0];
+      setFull(di, bi, lst);
+      var oldId = item.id;
+      item.id = uid('m');
+      var tl = full(di, nb);
+      if (dir < 0) tl.push(item); else tl.unshift(item);
+      setFull(di, nb, tl);
+      var oc = checkId(di, bi, oldId), nc = checkId(di, nb, item.id);
+      if (st.done[oc]) { delete st.done[oc]; st.done[nc] = 1; save(); }
+      openOv[bkey(di, nb)] = true;
+      menuRow = nc;
+    }
+  }
+  function patchItem(di, bi, id, fn) {
+    var l = full(di, bi);
+    l.forEach(function (it) { if (it.id === id) fn(it); });
+    setFull(di, bi, l);
+  }
+  function addFromForm(form, di, bi) {
+    var input = form.querySelector('input[type="text"]');
+    var text = input.value.replace(/\s+/g, ' ').trim();
+    if (!text) { input.focus(); return null; }
+    var pri = form.elements.pri ? form.elements.pri.value : 'normal';
+    var scope = form.elements.scope ? form.elements.scope.value : 'week';
+    var it = addItem(di, bi, text, pri, scope);
+    return {it: it, text: text};
+  }
+
+  /* ---------- render ---------- */
+  var headEl = document.getElementById('head');
   var tabsEl = document.getElementById('tabs');
   var viewEl = document.getElementById('view');
-
-  function renderTabs() {
-    var out = '';
-    DAYS.forEach(function (d, i) {
-      out += '<button class="tab' + (i === todayIdx ? ' today' + (overdue(i).length ? ' late' : '') : '') + '" role="tab" type="button" data-tab="' + i + '" aria-selected="' + (tab === i) + '">' + d.s + '</button>';
-    });
-    out += '<button class="tab" role="tab" type="button" data-tab="5" aria-selected="' + (tab === 5) + '">Week</button>';
-    tabsEl.innerHTML = out;
-  }
   function render(focusId) {
-    renderTabs();
-    viewEl.innerHTML = tab === 5 ? weekHtml() : dayHtml(tab);
+    viewEl.innerHTML = tab === 7 ? weekHtml() : dayHtml(tab);
+    headEl.innerHTML = headHtml();
+    tabsEl.innerHTML = stripHtml();
     if (focusId) { var el = document.getElementById(focusId); if (el) el.focus(); }
   }
-  function clearUndo() { undo = null; if (undoTimer) { clearTimeout(undoTimer); undoTimer = null; } }
-
-  tabsEl.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-tab]');
-    if (!b) return;
-    tab = Number(b.getAttribute('data-tab'));
-    clearUndo();
+  function goTab(i) {
+    tab = i; menuRow = null; menuOpen = false; addKey = null;
+    initOpen(i);
     render();
     window.scrollTo(0, 0);
+  }
+
+  /* ---------- events ---------- */
+  tabsEl.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-tab]');
+    if (b) goTab(Number(b.getAttribute('data-tab')));
   });
 
   viewEl.addEventListener('click', function (e) {
-    var inf = e.target.closest('[data-info]');
-    if (inf) { openSheet(Number(inf.getAttribute('data-info')), inf); return; }
-    var c = e.target.closest('.cell');
-    if (c) { tab = Number(c.getAttribute('data-day')); clearUndo(); render(); window.scrollTo(0, 0); return; }
+    var t = e.target;
+    if (menuOpen && !t.closest('.menu') && !t.closest('[data-act="menu"]')) {
+      menuOpen = false;
+      if (!t.closest('button, a, label, input, summary, textarea')) { render(); return; }
+    }
 
-    var rm = e.target.closest('[data-rm]');
-    if (rm) {
-      var p = rm.getAttribute('data-rm').split('|');
-      var di = Number(p[0]), bi = Number(p[1]), list = getItems(di, bi).slice();
-      var idx = -1;
-      list.forEach(function (it, i) { if (it.id === p[2]) idx = i; });
-      if (idx < 0) return;
-      var item = list.splice(idx, 1)[0];
-      setItems(di, bi, list);
-      delete st.done[checkId(di, bi, item.id)];
-      save();
-      clearUndo();
-      undo = {di: di, bi: bi, idx: idx, item: item};
-      undoTimer = setTimeout(function () { undo = null; undoTimer = null; if (document.getElementById('undo')) render(); }, 8000);
-      render('edit');
+    var tb = t.closest('[data-tab]');
+    if (tb) { goTab(Number(tb.getAttribute('data-tab'))); return; }
+
+    var act = t.closest('[data-act]');
+    if (act) {
+      var a = act.getAttribute('data-act');
+      if (a === 'week') { goTab(7); return; }
+      if (a === 'today') { goTab(todayIdx); return; }
+      if (a === 'menu') { menuOpen = !menuOpen; render(); return; }
+      if (a === 'newtask') { openSheet(newTaskHtml(tab), act, 'nt-name'); return; }
+      if (a === 'expandall' || a === 'collapseall') {
+        DAYS[tab].b.forEach(function (_, bi) { openOv[bkey(tab, bi)] = (a === 'expandall'); });
+        menuOpen = false; render(); return;
+      }
+      if (a === 'clear') {
+        var snap = {}, n = 0;
+        Object.keys(st.done).forEach(function (k) { if (k.indexOf('c-' + tab + '-') === 0) { snap[k] = 1; n++; delete st.done[k]; } });
+        save(); menuOpen = false;
+        if (n) showToast('Cleared ' + n + (n === 1 ? ' check' : ' checks'), function () { Object.keys(snap).forEach(function (k) { st.done[k] = 1; }); save(); });
+        else showToast('No checks to clear', null);
+        render(); return;
+      }
+      if (a === 'restore') {
+        var d0 = tab, saved = {}, any = false;
+        DAYS[d0].b.forEach(function (_, bi) { var k = bkey(d0, bi); if (cu.items[k]) { saved[k] = cu.items[k]; any = true; delete cu.items[k]; } });
+        saveCu(); menuOpen = false; menuRow = null;
+        if (any) showToast('Restored the original tasks', function () { Object.keys(saved).forEach(function (k) { cu.items[k] = saved[k]; }); saveCu(); });
+        else showToast('Already using the original tasks', null);
+        render(); return;
+      }
+    }
+
+    var tg = t.closest('[data-toggle]');
+    if (tg) { var key = tg.getAttribute('data-toggle'); openOv[key] = !(openOv[key] !== false); render(); return; }
+
+    var inf = t.closest('[data-info]');
+    if (inf) { openSheet(workoutHtml(Number(inf.getAttribute('data-info'))), inf); return; }
+
+    var at = t.closest('[data-addtoggle]');
+    if (at) {
+      var k2 = at.getAttribute('data-addtoggle');
+      addKey = addKey === k2 ? null : k2;
+      render(addKey ? 'add-' + k2 : undefined);
       return;
     }
 
-    if (e.target.id === 'undo' && undo) {
-      var l2 = getItems(undo.di, undo.bi).slice();
-      l2.splice(Math.min(undo.idx, l2.length), 0, undo.item);
-      setItems(undo.di, undo.bi, l2);
-      clearUndo();
-      render('edit');
+    var mr = t.closest('[data-more]');
+    if (mr) { var cid = mr.getAttribute('data-more'); menuRow = menuRow === cid ? null : cid; render(); return; }
+
+    var pr = t.closest('[data-pri]');
+    if (pr) {
+      var pp = pr.getAttribute('data-pri').split('|');
+      patchItem(Number(pp[0]), Number(pp[1]), pp[2], function (it) { if (pp[3] === 'normal') delete it.p; else it.p = pp[3]; });
+      render(); return;
+    }
+    var mv = t.closest('[data-mv]');
+    if (mv && !mv.disabled) {
+      var mp = mv.getAttribute('data-mv').split('|');
+      moveItem(Number(mp[0]), Number(mp[1]), mp[2], Number(mp[3]));
+      render(); return;
+    }
+    var rm = t.closest('[data-rm]');
+    if (rm) { var rp = rm.getAttribute('data-rm').split('|'); removeItem(Number(rp[0]), Number(rp[1]), rp[2]); render(); return; }
+
+    var md = t.closest('[data-mood]');
+    if (md) {
+      var dk = iso(dateOf(tab)), v = md.getAttribute('data-mood');
+      if (cu.mood[dk] === v) delete cu.mood[dk]; else cu.mood[dk] = v;
+      saveCu(); render(); return;
+    }
+  });
+
+  viewEl.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.type === 'checkbox') {
+      if (t.checked) st.done[t.id] = 1; else delete st.done[t.id];
+      save(); render(t.id);
       return;
     }
-
-    if (e.target.id === 'edit') { editing = !editing; clearUndo(); render('edit'); return; }
-
-    if (e.target.id === 'reset') {
-      Object.keys(st.done).forEach(function (k) { if (k.indexOf('c-' + tab + '-') === 0) delete st.done[k]; });
-      save(); render('reset');
+    if (t.getAttribute && t.getAttribute('data-rename')) {
+      var p = t.getAttribute('data-rename').split('|');
+      var txt = t.value.replace(/\s+/g, ' ').trim();
+      if (txt) patchItem(Number(p[0]), Number(p[1]), p[2], function (it) { it.t = txt; });
+      render();
     }
   });
 
@@ -791,44 +1026,63 @@ body.lock { overflow: hidden; }
     if (!f) return;
     e.preventDefault();
     var p = f.getAttribute('data-add').split('|');
-    var di = Number(p[0]), bi = Number(p[1]);
-    var input = f.querySelector('input');
-    var text = input.value.replace(/\s+/g, ' ').trim();
-    if (!text) { input.focus(); return; }
-    var list = getItems(di, bi).slice();
-    list.push({id: 'u' + Date.now().toString(36) + Math.floor(Math.random() * 1000), t: text});
-    setItems(di, bi, list);
-    clearUndo();
-    render('add-' + di + '-' + bi);
+    var r = addFromForm(f, Number(p[0]), Number(p[1]));
+    if (r) render('add-' + p[0] + '-' + p[1]);
   });
 
-  viewEl.addEventListener('change', function (e) {
-    var t = e.target;
-    if (t && t.type === 'checkbox') {
-      if (t.checked) st.done[t.id] = 1; else delete st.done[t.id];
-      save(); render(t.id);
-    }
+  overlay.addEventListener('click', function (e) {
+    if (e.target.hasAttribute('data-close') || e.target.id === 'sdone') closeSheet();
+  });
+  overlay.addEventListener('submit', function (e) {
+    var f = e.target.closest('[data-new]');
+    if (!f) return;
+    e.preventDefault();
+    var di = Number(f.getAttribute('data-new'));
+    var bi = Number(f.elements.blk.value);
+    var r = addFromForm(f, di, bi);
+    if (!r) return;
+    openOv[bkey(di, bi)] = true;
+    closeSheet();
+    var id = r.it.id;
+    showToast('Added “' + r.text + '” to ' + K[DAYS[di].b[bi][0]].name, function () {
+      var l = full(di, bi), ix = idxIn(l, id);
+      if (ix >= 0) { l.splice(ix, 1); setFull(di, bi, l); }
+    });
+    render();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    if (!overlay.hidden) { closeSheet(); return; }
+    if (menuOpen) { menuOpen = false; render(); }
   });
 
   var noteTimer = null;
   viewEl.addEventListener('input', function (e) {
     var t = e.target;
-    if (t && t.getAttribute && t.getAttribute('data-note') !== null) {
-      cu.notes[t.getAttribute('data-note')] = t.value;
-      if (noteTimer) clearTimeout(noteTimer);
-      noteTimer = setTimeout(saveCu, 300);
-    }
+    if (!t.getAttribute) return;
+    var nk = t.getAttribute('data-note'), rk = t.getAttribute('data-refl');
+    if (nk !== null) cu.notes[nk] = t.value;
+    else if (rk !== null) cu.refl[rk] = t.value;
+    else return;
+    if (noteTimer) clearTimeout(noteTimer);
+    noteTimer = setTimeout(saveCu, 300);
   });
   viewEl.addEventListener('focusout', function (e) {
-    if (e.target && e.target.getAttribute && e.target.getAttribute('data-note') !== null) { if (noteTimer) clearTimeout(noteTimer); saveCu(); }
+    var t = e.target;
+    if (t && t.getAttribute && (t.getAttribute('data-note') !== null || t.getAttribute('data-refl') !== null)) {
+      if (noteTimer) clearTimeout(noteTimer);
+      saveCu();
+    }
   });
 
+  initOpen(tab);
   render();
   setInterval(function () {
+    if (!overlay.hidden) return;
     var a = document.activeElement;
     var typing = a && (a.tagName === 'TEXTAREA' || (a.tagName === 'INPUT' && a.type === 'text'));
     if (typing) return;
-    if (tab === todayIdx) render(); else renderTabs();
+    if (tab === todayIdx || tab === 7) render();
   }, 30000);
 })();
 </script>
