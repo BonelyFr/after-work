@@ -691,6 +691,72 @@ input[type="text"], textarea { border-radius: 14px !important; }
   .seg.epri button.so { font-size: 0.78rem; padding: 0 2px; }
   body.editing { padding-bottom: 9rem; }
 }
+
+/* ===== edge fades: content melts into Apple white (light) / black (dark) at the top and bottom ===== */
+:root { --edge: #ffffff; --edge-0: rgba(255,255,255,0); }
+:root[data-theme="dark"] { --edge: #000000; --edge-0: rgba(0,0,0,0); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --edge: #000000; --edge-0: rgba(0,0,0,0); } }
+body::before {
+  content: ""; position: fixed; left: 0; right: 0; top: 0; z-index: 4; pointer-events: none;
+  height: calc(env(safe-area-inset-top, 0px) + 44px);
+  background: linear-gradient(to bottom, var(--edge) 0%, var(--edge) calc(env(safe-area-inset-top, 0px) * 0.55),
+    color-mix(in srgb, var(--edge) 70%, transparent) calc(env(safe-area-inset-top, 0px) + 10px),
+    color-mix(in srgb, var(--edge) 28%, transparent) calc(env(safe-area-inset-top, 0px) + 26px), var(--edge-0) 100%);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+body::after {
+  content: ""; position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; pointer-events: none;
+  height: calc(env(safe-area-inset-bottom, 0px) + 72px);
+  background: linear-gradient(to top, var(--edge) 0%, var(--edge) calc(env(safe-area-inset-bottom, 0px) * 0.6),
+    color-mix(in srgb, var(--edge) 72%, transparent) calc(env(safe-area-inset-bottom, 0px) + 18px),
+    color-mix(in srgb, var(--edge) 30%, transparent) calc(env(safe-area-inset-bottom, 0px) + 42px), var(--edge-0) 100%);
+}
+body { padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px)); }
+body.editing { padding-bottom: 9rem; }
+
+/* ===== final glass polish ===== */
+.overlay { background: rgba(20, 35, 70, 0.16); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+:root[data-theme="dark"] .overlay { background: rgba(0, 0, 0, 0.34); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .overlay { background: rgba(0, 0, 0, 0.34); } }
+.sheet { animation: glassrise 0.38s cubic-bezier(0.2, 0.9, 0.25, 1.05); }
+@keyframes glassrise { from { transform: translateY(40px) scale(0.98); opacity: 0; } to { transform: none; opacity: 1; } }
+:focus-visible { outline: 2px solid rgba(0, 113, 227, 0.75); outline-offset: 2px; border-radius: 12px; }
+.sheet button:focus-visible, .sheet .link:focus-visible { outline-width: 2px; outline-offset: 1px; }
+button, .day, .bcard, .chip span { transition: transform 0.18s ease, background-color 0.25s ease, box-shadow 0.25s ease; }
+.primary:active, .addbtn:active, .ghost:active, .kebab:active, .day:active { transform: scale(0.96); }
+.bcard:active { transform: scale(0.992); }
+.tabbar, .status, .bcard { will-change: auto; }
+@media (prefers-reduced-motion: reduce) { .sheet { animation: none; } button, .day, .bcard, .chip span { transition: none; } .bcard:hover, .status:hover { transform: none; } }
+
+/* ===== past / today / future clarity + check-off motion ===== */
+.pill.st-missed { background: var(--seg); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+.s-missed .node { border-color: var(--faint); background: transparent; }
+.r-past:not(.s-done) .bcard { opacity: 0.82; }
+.r-past .bn, .r-past .bm { color: var(--muted); }
+.r-past.s-done .bcard { opacity: 0.9; }
+.r-future .bcard { background-image: repeating-linear-gradient(135deg, rgba(120,130,150,0.07) 0 8px, transparent 8px 16px), var(--lg-spec); border-style: dashed; }
+.r-future .item { cursor: not-allowed; }
+.row.locked .item input { opacity: 0.4; cursor: not-allowed; border-style: dashed; }
+.row.locked .tx { color: var(--muted); }
+.daybanner { display: grid; gap: 2px; margin-top: 0.75rem; padding: 12px 16px; border-radius: 20px; font-size: 0.92rem; background: var(--glass); border: 1px solid var(--glass-edge); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+.daybanner b { font-size: 0.95rem; }
+.daybanner span { color: var(--muted); }
+.daybanner.future { border-style: dashed; }
+.daybanner.future b { color: var(--blue-text); }
+@keyframes checkpop { 0% { transform: scale(0.6); } 55% { transform: scale(1.25); } 100% { transform: scale(1); } }
+@keyframes checkring { 0% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.55); } 100% { box-shadow: 0 0 0 14px rgba(52, 199, 89, 0); } }
+@keyframes uncheck { 0% { transform: scale(1.12); } 100% { transform: scale(1); } }
+@keyframes txin { 0% { opacity: 0.35; transform: translateX(-4px); } 100% { opacity: 1; transform: none; } }
+@keyframes blockdone { 0% { transform: scale(1); } 40% { transform: scale(1.015); } 100% { transform: scale(1); } }
+.item input.pop { animation: checkpop 0.38s cubic-bezier(0.2, 0.9, 0.3, 1.4), checkring 0.55s ease-out; }
+.item input.unpop { animation: uncheck 0.22s ease-out; }
+.tx.sweep { animation: txin 0.35s ease-out; }
+.bcard.blockdone { animation: blockdone 0.5s ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .item input.pop, .item input.unpop, .tx.sweep, .bcard.blockdone { animation: rmflash 0.5s ease-out; }
+  @keyframes rmflash { 0% { opacity: 0.4; } 100% { opacity: 1; } }
+}
+@media print { body::before, body::after { display: none !important; } }
 @media print { body { background: #fff !important; } }
 </style>
 </head>
@@ -798,26 +864,31 @@ input[type="text"], textarea { border-radius: 14px !important; }
   function iso(d) { function p(n) { return (n < 10 ? '0' : '') + n; } return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()); }
   var wk = iso(ws);
   var loadedOn = iso(now0);
-  document.addEventListener('visibilitychange', function () {
-    if (!document.hidden && iso(new Date()) !== loadedOn) location.reload();
-  });
+  function dayRolled() { if (iso(new Date()) !== loadedOn) { location.reload(); return true; } return false; }
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) dayRolled(); });
+  window.addEventListener('pageshow', dayRolled);
+  window.addEventListener('focus', dayRolled);
+  setInterval(dayRolled, 20000);
   function nowMin() { var d = new Date(); return d.getHours() * 60 + d.getMinutes(); }
   function pm(m) { var h = Math.floor(m / 60), mm = m % 60; return (h > 12 ? h - 12 : h) + ':' + (mm < 10 ? '0' : '') + mm + ' PM'; }
 
   /* ---------- saved state ---------- */
+  /* saved data is kept under a key tied to this app's address, so another page on the same site can't read or overwrite it */
+  var NS = ''; try { NS = location.pathname.replace(/index\.html$/, '').replace(/\/+$/, ''); } catch (e) {}
+  var K1 = 'after-work-day-v1' + (NS ? '@' + NS : ''), K2 = 'after-work-day-v2' + (NS ? '@' + NS : '');
   var st = {week: wk, done: {}};   /* checks reset every week */
   try {
-    var raw = JSON.parse(localStorage.getItem('after-work-day-v1'));
+    var raw = JSON.parse(localStorage.getItem(K1) || localStorage.getItem('after-work-day-v1'));
     if (raw && raw.week === wk && raw.done) st = raw;
   } catch (e) {}
-  function save() { try { localStorage.setItem('after-work-day-v1', JSON.stringify(st)); } catch (e) {} }
+  function save() { try { localStorage.setItem(K1, JSON.stringify(st)); } catch (e) {} }
 
   var cu = {items: {}, notes: {}, refl: {}, mood: {}, log: {}, blocks: {}, plans: {}, wmap: {}};   /* tasks, notes and reflections stay until changed */
   try {
-    var raw2 = JSON.parse(localStorage.getItem('after-work-day-v2'));
+    var raw2 = JSON.parse(localStorage.getItem(K2) || localStorage.getItem('after-work-day-v2'));
     if (raw2) { cu.items = raw2.items || {}; cu.notes = raw2.notes || {}; cu.refl = raw2.refl || {}; cu.mood = raw2.mood || {}; cu.log = raw2.log || {}; cu.blocks = cleanBlocks(raw2.blocks); cu.plans = cleanPlans(raw2.plans); cu.wmap = cleanWmap(raw2.wmap); }
   } catch (e) {}
-  function saveCu() { try { localStorage.setItem('after-work-day-v2', JSON.stringify(cu)); } catch (e) {} }
+  function saveCu() { try { localStorage.setItem(K2, JSON.stringify(cu)); } catch (e) {} }
 
   /* ---------- tasks ---------- */
   function fmtTime(m) { var h = Math.floor(m / 60), mm = m % 60; return (h % 12 || 12) + ':' + (mm < 10 ? '0' : '') + mm + ' ' + (h >= 12 ? 'PM' : 'AM'); }
@@ -826,7 +897,8 @@ input[type="text"], textarea { border-radius: 14px !important; }
     return DAYS[di].b.map(function (b, i) { return {id: String(i), k: b[0], s: b[1], t: TIME[b[1]] ? TIME[b[1]] + ' PM' : ''}; });
   }
   function blockName(b) { return b.n || K[b.k].name; }
-  function blockLabel(b) { return b.t || fmtTime(b.s); }
+  function fmtRange(a, z) { var A = fmtTime(a), Z = fmtTime(z); return A.slice(-2) === Z.slice(-2) ? A.slice(0, -3) + '\u2013' + Z : A + ' \u2013 ' + Z; }
+  function blockLabel(b) { return typeof b.e === 'number' ? fmtRange(b.s, b.e) : (b.t || fmtTime(b.s)); }
   function bkey(di, bi) { var b = blocksOf(di)[bi]; return di + '-' + (b ? b.id : bi); }
   function full(di, bi) {
     var k = bkey(di, bi);
@@ -841,13 +913,15 @@ input[type="text"], textarea { border-radius: 14px !important; }
 
   function dayMeta(di) {
     var blks = blocksOf(di), n = nowMin(), isToday = di === todayIdx, out = [];
+    var rel = isToday ? 'today' : (todayIdx >= 0 && di < todayIdx ? 'past' : 'future');
     blks.forEach(function (blk, bi) {
       var items = getItems(di, bi), done = 0;
       items.forEach(function (it) { if (st.done[checkId(di, bi, it.id)]) done++; });
-      var start = blk.s, end = bi + 1 < blks.length ? blks[bi + 1].s : 1440, s = 'later';
+      var start = blk.s, end = typeof blk.e === 'number' && blk.e > blk.s ? blk.e : (bi + 1 < blks.length ? blks[bi + 1].s : 1440), s = 'later';
       if (items.length && done === items.length) s = 'done';
       else if (isToday) { if (n >= end) s = items.length ? 'overdue' : 'later'; else if (n >= start) s = 'now'; }
-      out.push({bi: bi, id: blk.id, kind: blk.k, name: blockName(blk), tl: blockLabel(blk), start: start, end: end, total: items.length, done: done, s: s, items: items});
+      else if (rel === 'past' && items.length) s = 'missed';
+      out.push({rel: rel, bi: bi, id: blk.id, kind: blk.k, name: blockName(blk), tl: blockLabel(blk), start: start, end: end, total: items.length, done: done, s: s, items: items});
     });
     if (isToday) {
       for (var i = 0; i < out.length; i++) { if (out[i].s === 'later' && out[i].total && out[i].start > n) { out[i].s = 'next'; break; } }
@@ -957,14 +1031,16 @@ input[type="text"], textarea { border-radius: 14px !important; }
     return out + '</div>';
   }
 
-  var SL = {done: '✓ Done', now: '● Now', next: 'Up next', overdue: '! Overdue', later: 'Not started'};
+  var SL = {done: '✓ Done', now: '● Now', next: 'Up next', overdue: '! Overdue', later: 'Not started', missed: 'Missed', upcoming: 'Upcoming'};
 
   var GRIP = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="currentColor"><rect x="4" y="7" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="15" width="16" height="2" rx="1"/></svg>';
 
+  function rel0(di) { return di === todayIdx ? 'today' : (todayIdx >= 0 && di < todayIdx ? 'past' : 'future'); }
+  function isFuture(di) { return todayIdx < 0 || di > todayIdx; }
   function rowHtml(di, m, it) {
-    var cid = checkId(di, m.bi, it.id);
+    var cid = checkId(di, m.bi, it.id), lock = isFuture(di);
     var tag = it.p === 'important' ? '<span class="tag imp">! Important</span>' : (it.p === 'low' ? '<span class="tag low">Low</span>' : '');
-    return '<li class="row"><label class="item"><input type="checkbox" id="' + cid + '"' + (st.done[cid] ? ' checked' : '') + '><span class="tx">' + esc(it.t) + '</span>' + tag + '</label></li>';
+    return '<li class="row' + (lock ? ' locked' : '') + '" data-lockday="' + (lock ? di : '') + '"><label class="item"><input type="checkbox" id="' + cid + '"' + (st.done[cid] ? ' checked' : '') + (lock ? ' disabled aria-disabled="true"' : '') + '><span class="tx">' + esc(it.t) + '</span>' + tag + '</label></li>';
   }
 
   /* ---------- edit mode: rename in place, set priority, drag to reorder, delete, add ---------- */
@@ -1007,7 +1083,7 @@ input[type="text"], textarea { border-radius: 14px !important; }
   function blockHtml(di, m) {
     if (editing) return editBlockHtml(di, m);
     var key = bkey(di, m.bi), open = openOv[key] !== undefined ? openOv[key] : !!m.focus;
-    var label = (m.s === 'later' && m.done > 0) ? 'In progress' : SL[m.s];
+    var label = m.rel === 'future' ? (m.done > 0 ? 'In progress' : SL.upcoming) : (m.s === 'missed' && m.done > 0 ? 'Partly done' : ((m.s === 'later' && m.done > 0) ? 'In progress' : SL[m.s]));
     var nextTask = '';
     if (!open && m.s !== 'done' && m.items.length > 1) {
       for (var i = 0; i < m.items.length; i++) {
@@ -1015,16 +1091,16 @@ input[type="text"], textarea { border-radius: 14px !important; }
       }
     }
     var meta = esc(m.tl) + (m.total ? ' · ' + m.done + ' of ' + m.total : '') + (nextTask ? ' · Next: ' + esc(nextTask) : '');
-    var showPill = m.s !== 'later' || m.done > 0;
+    var showPill = m.s !== 'later' || m.done > 0 || (m.rel === 'future' && m.total > 0);
     if (!m.items.length && m.kind !== 'gym') {
       return '<section class="tl s-' + m.s + '" style="--c:var(--' + m.kind + ')"><div class="bcard"><div class="bt etop"><span class="bl"><span class="bn"><i class="dot" aria-hidden="true"></i>' + esc(m.name) + '</span>' +
         '<span class="bm" style="display:block">' + esc(m.tl) + '</span></span>' + (m.s === 'now' ? '<span class="pill st-now">' + SL.now + '</span>' : '') + '</div></div></section>';
     }
-    var out = '<section class="tl s-' + m.s + '" style="--c:var(--' + m.kind + ')">' +
+    var out = '<section class="tl s-' + m.s + ' r-' + m.rel + '" style="--c:var(--' + m.kind + ')">' +
       '<div class="bcard">' +
       '<button class="bt" type="button" data-toggle="' + key + '" aria-expanded="' + open + '" aria-controls="b-' + key + '">' +
       '<span class="bl"><span class="bn"><i class="dot" aria-hidden="true"></i>' + esc(m.name) + '</span><span class="bm" style="display:block">' + meta + '</span></span>' +
-      (showPill ? '<span class="pill st-' + (m.s === 'later' && m.done > 0 ? 'later' : m.s) + '">' + label + '</span>' : '') + '<span class="chev" aria-hidden="true"></span></button>' +
+      (showPill ? '<span class="pill st-' + (m.s === 'later' ? 'later' : m.s) + '">' + label + '</span>' : '') + '<span class="chev" aria-hidden="true"></span></button>' +
       '<div id="b-' + key + '"' + (open ? '' : ' hidden') + '>';
     if (m.items.length) {
       out += '<ul class="items">' + m.items.map(function (it, idx) { return rowHtml(di, m, it); }).join('') + '</ul>';
@@ -1061,6 +1137,8 @@ input[type="text"], textarea { border-radius: 14px !important; }
           (todayIdx < 6 ? '<button class="link" type="button" data-tab="' + (todayIdx + 1) + '">Look at tomorrow ›</button>' : '') + '</div>';
       }
     }
+    if (isFuture(di) && meta.length) out += '<div class="daybanner future" role="status"><b>Opens ' + (todayIdx < 0 ? 'Monday' : day.l) + '</b><span>' + (todayIdx < 0 ? 'The weekend is here. Check-offs open when the week starts.' : 'This day is still ahead, so tasks can\u2019t be checked off yet. You can plan and edit it.') + '</span></div>';
+    else if (rel0(di) === 'past' && meta.length) out += '<div class="daybanner past" role="status"><b>' + day.l + ' is over</b><span>Anything you didn\u2019t finish shows as missed. You can still check off what you did.</span></div>';
     out += toolbar(di);
     if (!meta.length) {
       out += '<div class="empty"><strong>Nothing planned for ' + day.l + '.</strong><p>Open the menu and choose Edit schedule to add a block, or use the notes below for anything you want to remember.</p></div>';
@@ -1274,7 +1352,7 @@ input[type="text"], textarea { border-radius: 14px !important; }
         if (r.g && r.g !== last) li += '<li class="lgl">' + esc(r.g) + '</li>';
         last = r.g || null;
         var q = P[r.id] || {}, on = !!q.d, act = q.a || '';
-        li += '<li class="lprow"><label class="item"><input type="checkbox" data-lp="' + r.id + '"' + (on ? ' checked' : '') + '><span class="tx">' + esc(r.t) + '</span></label>' +
+        li += '<li class="lprow"><label class="item"><input type="checkbox" data-lp="' + r.id + '"' + (on ? ' checked' : '') + (isFuture(di) ? ' disabled' : '') + '><span class="tx">' + esc(r.t) + '</span></label>' +
           '<input type="text" class="lact" data-la="' + r.id + '" maxlength="80" autocomplete="off" placeholder="What you did (3 x 5 @ 135 lb)" aria-label="What you did: ' + esc(r.t) + '" value="' + esc(act) + '"' + ((on || act) ? '' : ' hidden') + '></li>';
       });
       return '<div><span class="fl lsec">' + esc(sec.h) + (sec.note ? ' <small>' + esc(sec.note) + '</small>' : '') + '</span><ul class="lrows">' + li + '</ul></div>';
@@ -1285,7 +1363,7 @@ input[type="text"], textarea { border-radius: 14px !important; }
     }).join('');
     return '<div class="wcard logcard">' +
       '<div><label class="fl" for="lg-min">Time at the gym (minutes)</label><input type="number" inputmode="numeric" min="0" max="600" step="1" id="lg-min" data-log="m" value="' + esc(L.m) + '" placeholder="60"></div>' +
-      (plan ? '<p class="hint">Preloaded from the plan. Check off what you did, then add the weight or reps in the box that appears.</p>' + plan : '') +
+      (isFuture(di) ? '<p class="daybanner future" style="margin:0"><b>Opens ' + DAYS[di].l + '</b><span>You can log this workout on the day.</span></p>' : '') + (plan ? '<p class="hint">Preloaded from the plan. Check off what you did, then add the weight or reps in the box that appears.</p>' + plan : '') +
       '<div><span class="fl">Extra exercises</span>' + (rows ? '<ul class="lrows">' + rows + '</ul>' : '') + '</div>' +
       '<form class="logadd" data-logadd><input type="text" id="lg-ex" maxlength="60" autocomplete="off" placeholder="Add your own exercise" aria-label="Exercise name">' +
       '<input type="text" id="lg-sets" maxlength="80" autocomplete="off" placeholder="Sets, reps, weight (3 x 5 @ 135 lb)" aria-label="Sets, reps and weight">' +
@@ -1501,6 +1579,7 @@ input[type="text"], textarea { border-radius: 14px !important; }
         var o = {id: String(b.id), k: b.k, s: Math.round(b.s)};
         if (typeof b.n === 'string' && b.n.trim()) o.n = b.n.slice(0, 40);
         if (typeof b.t === 'string' && b.t) o.t = b.t.slice(0, 24);
+        if (typeof b.e === 'number' && b.e > o.s && b.e <= 1440) o.e = Math.round(b.e);
         list.push(o);
       });
       out[di] = list;
@@ -1508,7 +1587,7 @@ input[type="text"], textarea { border-radius: 14px !important; }
     return out;
   }
   function copyBlocks(di) {
-    return blocksOf(di).map(function (b) { var o = {id: b.id, k: b.k, s: b.s}; if (b.n) o.n = b.n; if (b.t) o.t = b.t; return o; });
+    return blocksOf(di).map(function (b) { var o = {id: b.id, k: b.k, s: b.s}; if (b.n) o.n = b.n; if (b.t) o.t = b.t; if (typeof b.e === 'number') o.e = b.e; return o; });
   }
   function setBlocks(di, list) {
     var arr = list.map(function (b, i) { return {b: b, i: i}; });
@@ -1524,7 +1603,8 @@ input[type="text"], textarea { border-radius: 14px !important; }
       '<form class="newform" data-bkedit="' + di + '|' + bi + '">' +
       '<label class="fl" for="bk-name">Name</label><input type="text" id="bk-name" maxlength="40" autocomplete="off" value="' + esc(blockName(b)) + '">' +
       '<label class="fl" for="bk-time">Starts at</label><input type="time" id="bk-time" value="' + toHHMM(b.s) + '">' +
-      '<p class="hint">A block runs until the next one starts.</p>' +
+      '<label class="fl" for="bk-end">Ends at</label><input type="time" id="bk-end" value="' + (typeof b.e === 'number' ? toHHMM(b.e % 1440) : '') + '">' +
+      '<p class="hint">Leave \u201cEnds at\u201d empty and the block runs until the next one starts.</p>' +
       '<button class="primary wide" type="submit">Save</button>' +
       '<button class="link danger" type="button" data-bkdel="' + di + '|' + bi + '">Remove this block</button></form>');
   }
@@ -1536,20 +1616,23 @@ input[type="text"], textarea { border-radius: 14px !important; }
       '<label class="fl" for="bk-kind">Start from</label><select id="bk-kind">' + opts + '</select>' +
       '<label class="fl" for="bk-name">Name</label><input type="text" id="bk-name" maxlength="40" autocomplete="off" placeholder="Name (optional)">' +
       '<label class="fl" for="bk-time">Starts at</label><input type="time" id="bk-time" value="' + toHHMM(def) + '">' +
+      '<label class="fl" for="bk-end">Ends at (optional)</label><input type="time" id="bk-end" value="">' +
       '<p class="hint">Gym, Dinner and the others bring their usual tasks and color. A blank block starts empty.</p>' +
       '<button class="primary wide" type="submit">Add block</button></form>');
   }
-  function saveBlockEdit(di, bi, name, mins) {
+  function saveBlockEdit(di, bi, name, mins, endMins) {
     var list = copyBlocks(di), b = list[bi];
     if (!b) return;
     if (name && name !== K[b.k].name) b.n = name; else delete b.n;
     if (mins !== b.s) { b.s = mins; delete b.t; }
+    if (typeof endMins === 'number' && endMins > mins) { b.e = endMins; delete b.t; } else delete b.e;
     setBlocks(di, list);
   }
-  function addBlock(di, kind, name, mins) {
+  function addBlock(di, kind, name, mins, endMins) {
     var list = copyBlocks(di), id = String(Date.now());
     while (list.some(function (x) { return x.id === id; })) id = String(Number(id) + 1);
     var b = {id: id, k: kind, s: mins};
+    if (typeof endMins === 'number' && endMins > mins) b.e = endMins;
     if (name && name !== K[kind].name) b.n = name;
     list.push(b);
     setBlocks(di, list);
@@ -1887,8 +1970,15 @@ input[type="text"], textarea { border-radius: 14px !important; }
   var headEl = document.getElementById('head');
   var tabsEl = document.getElementById('tabs');
   var viewEl = document.getElementById('view');
-  function render(focusId) {
+  function render(focusId, popId) {
+    var prevFill = [].map.call(viewEl.querySelectorAll('.fill'), function (f) { return f.style.width; });
     viewEl.innerHTML = tab === 7 ? weekHtml() : dayHtml(tab);
+    var fills = viewEl.querySelectorAll('.fill');
+    for (var fi = 0; fi < fills.length && prevFill.length === fills.length; fi++) {
+      var tw = fills[fi].style.width;
+      if (prevFill[fi] && prevFill[fi] !== tw) { (function (el, from, to) { el.style.width = from; void el.offsetWidth; requestAnimationFrame(function () { el.style.width = to; }); })(fills[fi], prevFill[fi], tw); }
+    }
+    if (popId) { var pe = document.getElementById(popId); if (pe) { pe.classList.add(pe.checked ? 'pop' : 'unpop'); var tx = pe.nextElementSibling; if (tx) tx.classList.add('sweep'); var bc = pe.closest('.bcard'); if (bc && bc.parentNode.classList.contains('s-done')) bc.classList.add('blockdone'); } }
     document.body.classList.toggle('editing', editing && tab !== 7);
     headEl.innerHTML = headHtml();
     tabsEl.innerHTML = stripHtml();
@@ -1909,6 +1999,8 @@ input[type="text"], textarea { border-radius: 14px !important; }
 
   viewEl.addEventListener('click', function (e) {
     var t = e.target;
+    var lk = t.closest && t.closest('.row.locked');
+    if (lk) { var ld = Number(lk.getAttribute('data-lockday')); showToast(todayIdx < 0 ? 'Check-offs open Monday.' : 'You can check this off on ' + DAYS[ld].l + '.'); return; }
     if (menuOpen && !t.closest('.menu') && !t.closest('[data-act="menu"]')) {
       menuOpen = false;
       if (!t.closest('button, a, label, input, summary, textarea')) { render(); return; }
@@ -2007,7 +2099,7 @@ input[type="text"], textarea { border-radius: 14px !important; }
       var cm = t.id.match(/^c-(\d+)-(\d+)-/);
       if (cm && openOv[cm[1] + '-' + cm[2]] === undefined) openOv[cm[1] + '-' + cm[2]] = true;
       if (t.checked) st.done[t.id] = 1; else delete st.done[t.id];
-      save(); render(t.id);
+      save(); render(t.id, t.id);
       return;
     }
     if (t.getAttribute && t.getAttribute('data-rename')) {
@@ -2103,14 +2195,16 @@ input[type="text"], textarea { border-radius: 14px !important; }
       e.preventDefault();
       var mins = readTime(document.getElementById('bk-time').value);
       if (mins === null) { document.getElementById('bk-time').focus(); return; }
+      var endRaw = document.getElementById('bk-end').value, endM = endRaw ? readTime(endRaw) : null;
+      if (endM !== null && endM <= mins) { if (endM === 0) endM = 1440; else { document.getElementById('bk-end').focus(); showToast('Ends at must be after Starts at'); return; } }
       var nm0 = document.getElementById('bk-name').value.replace(/\s+/g, ' ').trim();
       if (bf) {
         var fq = bf.getAttribute('data-bkedit').split('|'), fdi = Number(fq[0]), fbi = Number(fq[1]), fb = blocksOf(fdi)[fbi];
-        saveBlockEdit(fdi, fbi, nm0 || (fb ? K[fb.k].name : ''), mins);
+        saveBlockEdit(fdi, fbi, nm0 || (fb ? K[fb.k].name : ''), mins, endM);
       } else {
         var adi = Number(ba.getAttribute('data-bkadd')), kind = document.getElementById('bk-kind').value;
         if (!K[kind]) kind = 'free';
-        addBlock(adi, kind, nm0, mins);
+        addBlock(adi, kind, nm0, mins, endM);
       }
       closeSheet();
       render();
