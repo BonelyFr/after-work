@@ -12,8 +12,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="After Work">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#e9f1fb" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#05070d" media="(prefers-color-scheme: dark)">
 <style>
 :root { color-scheme: light; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
 body { margin: 0; }
@@ -471,6 +471,192 @@ body.dragging-now { user-select: none; -webkit-user-select: none; cursor: grabbi
 }
 
 @media (prefers-reduced-motion: reduce) { .fill, .item input, .chev, .wdet summary::after, .notes > summary::after { transition: none; } .sheet { animation: none; } }
+
+/* ===== Liquid Glass theme (iOS 26 style) ===== */
+:root {
+  --bg: #e9f1fb;
+  --muted: #55555a;
+  --faint: #6a6a70;
+  --card: rgba(255, 255, 255, 0.58);
+  --glass: rgba(255, 255, 255, 0.58);
+  --glass-strong: rgba(255, 255, 255, 0.78);
+  --glass-edge: rgba(255, 255, 255, 0.75);
+  --glass-edge-low: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 28px rgba(31, 60, 110, 0.14), 0 1px 2px rgba(31, 60, 110, 0.08);
+  --bar: rgba(255, 255, 255, 0.55);
+  --seg: rgba(120, 130, 150, 0.2);
+  --segsel: rgba(255, 255, 255, 0.92);
+  --line: rgba(60, 70, 90, 0.16);
+  --shadow: 0 18px 50px rgba(31, 60, 110, 0.28);
+  --bg-a: #8ec5ff; --bg-b: #c4b5fd; --bg-c: #7be0d0; --bg-d: #ffc9a8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #05070d;
+    --card: rgba(44, 48, 64, 0.5);
+    --glass: rgba(44, 48, 64, 0.5);
+    --glass-strong: rgba(40, 44, 60, 0.78);
+    --glass-edge: rgba(255, 255, 255, 0.22);
+    --glass-edge-low: rgba(255, 255, 255, 0.05);
+    --glass-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    --bar: rgba(20, 22, 34, 0.55);
+    --seg: rgba(150, 156, 180, 0.24);
+    --segsel: rgba(120, 128, 160, 0.5);
+    --line: rgba(255, 255, 255, 0.14);
+    --shadow: 0 18px 50px rgba(0, 0, 0, 0.7);
+    --bg-a: #1d4f9e; --bg-b: #4b2f8f; --bg-c: #0f6a66; --bg-d: #6d3a2a;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #05070d;
+  --card: rgba(44, 48, 64, 0.5);
+  --glass: rgba(44, 48, 64, 0.5);
+  --glass-strong: rgba(40, 44, 60, 0.78);
+  --glass-edge: rgba(255, 255, 255, 0.22);
+  --glass-edge-low: rgba(255, 255, 255, 0.05);
+  --glass-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  --bar: rgba(20, 22, 34, 0.55);
+  --seg: rgba(150, 156, 180, 0.24);
+  --segsel: rgba(120, 128, 160, 0.5);
+  --line: rgba(255, 255, 255, 0.14);
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.7);
+  --bg-a: #1d4f9e; --bg-b: #4b2f8f; --bg-c: #0f6a66; --bg-d: #6d3a2a;
+}
+html { background: var(--bg); }
+body {
+  background:
+    radial-gradient(60vmax 50vmax at 10% -5%, var(--bg-a), transparent 60%),
+    radial-gradient(55vmax 45vmax at 105% 18%, var(--bg-b), transparent 60%),
+    radial-gradient(60vmax 50vmax at 0% 62%, var(--bg-c), transparent 62%),
+    radial-gradient(55vmax 45vmax at 100% 100%, var(--bg-d), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+/* glass surfaces */
+.status, .empty, .bcard, .notes, .metric, .wrows, .gridwrap, .wcard, .wdet, .menu, .kebab, .ghost {
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--glass-edge);
+  border-bottom-color: var(--glass-edge-low);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.status, .empty, .bcard, .notes, .metric, .wrows, .gridwrap { border-radius: 24px; }
+.wcard, .wdet { border-radius: 20px; }
+.kebab, .ghost { border-radius: 999px; }
+.ghost { color: var(--blue-text); }
+.menu { border-radius: 22px; background: var(--glass-strong); }
+.menu button:hover { background: var(--seg); }
+.wcard, .wdet, .wrows { box-shadow: none; }
+/* floating glass day strip */
+.tabbar {
+  background: var(--bar);
+  -webkit-backdrop-filter: blur(26px) saturate(180%);
+  backdrop-filter: blur(26px) saturate(180%);
+  margin-inline: 0;
+  padding: 0.35rem 6px;
+  border-radius: 28px;
+  border: 1px solid var(--glass-edge);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.day { border-radius: 22px; }
+.day.sel { background: var(--glass-strong); box-shadow: 0 2px 10px rgba(31, 60, 110, 0.15), inset 0 1px 0 rgba(255,255,255,0.6); }
+.day.sel .dn { background: var(--blue); box-shadow: 0 2px 8px rgba(0, 113, 227, 0.45); }
+body::before { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
+/* controls */
+.primary {
+  border-radius: 999px;
+  background: linear-gradient(180deg, #3d9bff, var(--blue));
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0, 113, 227, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+.seg { border-radius: 999px; padding: 3px; -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
+.seg .so span, .seg button.so { border-radius: 999px; }
+.seg label.so input:checked + span, .seg button.so[aria-pressed="true"] { box-shadow: 0 2px 8px rgba(31, 60, 110, 0.18), inset 0 1px 0 rgba(255,255,255,0.5); }
+input[type="text"], textarea { border-radius: 14px !important; }
+/* sheets float as glass panels */
+.overlay { background: rgba(10, 20, 40, 0.28); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.sheet {
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: blur(40px) saturate(190%);
+  backdrop-filter: blur(40px) saturate(190%);
+  border: 1px solid var(--glass-edge);
+  border-radius: 32px;
+  margin: 0 8px calc(8px + env(safe-area-inset-bottom, 0px));
+  width: calc(100% - 16px);
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+.sheet .wcard, .sheet .wdet, .sheet .metric { background: var(--seg); box-shadow: none; }
+/* edit dock + toast */
+.editdock {
+  left: 12px; right: 12px; bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  border-radius: 28px; border: 1px solid var(--glass-edge);
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  backdrop-filter: blur(30px) saturate(180%);
+  box-shadow: var(--glass-shadow);
+  padding: 10px 16px;
+}
+.toast { border-radius: 999px; background: rgba(20, 24, 40, 0.82); color: #fff; -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); }
+.toast button { color: #fff; }
+.erow { background: transparent; }
+@media (prefers-reduced-transparency: reduce) {
+  .status, .empty, .bcard, .notes, .metric, .wrows, .gridwrap, .wcard, .wdet, .menu, .kebab, .ghost, .tabbar, .sheet, .editdock { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--glass-strong); }
+}
+
+/* ===== Liquid Glass v2: specular highlight like the reference ===== */
+:root {
+  --lg-bg: rgba(255, 255, 255, 0.28);
+  --lg-highlight: rgba(255, 255, 255, 0.75);
+  --lg-spec: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.18) 38%, rgba(255,255,255,0) 100%);
+  --lg-shadow: 0 6px 6px rgba(0, 0, 0, 0.12), 0 0 20px rgba(0, 0, 0, 0.08);
+}
+:root[data-theme="dark"] { --lg-bg: rgba(255,255,255,0.1); --lg-spec: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.06) 40%, rgba(255,255,255,0) 100%); --lg-shadow: 0 6px 6px rgba(0,0,0,0.35), 0 0 20px rgba(0,0,0,0.25); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --lg-bg: rgba(255,255,255,0.1); --lg-spec: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.06) 40%, rgba(255,255,255,0) 100%); --lg-shadow: 0 6px 6px rgba(0,0,0,0.35), 0 0 20px rgba(0,0,0,0.25); }
+}
+.status, .empty, .bcard, .notes, .metric, .wrows, .gridwrap, .menu, .kebab, .ghost, .tabbar, .editdock, .sheet {
+  background-image: var(--lg-spec);
+  background-color: var(--lg-bg);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: var(--lg-shadow), inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(255,255,255,0.15);
+  border-radius: 2rem;
+}
+.kebab, .ghost { border-radius: 999px; }
+.tabbar { border-radius: 2rem; }
+.menu { border-radius: 1.5rem; background-color: var(--glass-strong); }
+.sheet { background-color: var(--glass-strong); -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%); border-radius: 2rem; }
+.bcard, .status, .notes { transition: transform 0.3s ease; }
+@media (hover: hover) { .bcard:hover, .status:hover { transform: translateY(-3px); } }
+.sheet .wcard, .sheet .wdet, .sheet .metric { background-image: none; }
+@media (prefers-reduced-transparency: reduce) {
+  .status, .empty, .bcard, .notes, .metric, .wrows, .gridwrap, .menu, .kebab, .ghost, .tabbar, .editdock, .sheet { background-image: none; background-color: var(--glass-strong); }
+}
+
+:root[data-theme="dark"] { --muted: #d0d3de; --faint: #b4b8c6; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --muted: #d0d3de; --faint: #b4b8c6; } }
+
+/* ===== audit fixes ===== */
+.addbtn { min-height: 44px; padding: 0 1.1rem; border: 0; border-radius: 999px; background: linear-gradient(180deg, #3d9bff, var(--blue)); color: #fff; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(0,113,227,0.3), inset 0 1px 0 rgba(255,255,255,0.45); }
+.addrow input, .newform input[type="text"], .sheet input[type="text"], .sheet input[type="number"], .sheet input:not([type]), .sheet textarea, .notes textarea, .rowmenu input[type="text"] {
+  background: rgba(255,255,255,0.45) !important; border: 1px solid rgba(255,255,255,0.55) !important; color: var(--ink) !important; -webkit-text-fill-color: var(--ink);
+  box-shadow: inset 0 1px 2px rgba(31,60,110,0.12);
+}
+:root[data-theme="dark"] .addrow input, :root[data-theme="dark"] .sheet input, :root[data-theme="dark"] .sheet textarea, :root[data-theme="dark"] .notes textarea, :root[data-theme="dark"] .rowmenu input[type="text"] { background: rgba(255,255,255,0.1) !important; border-color: rgba(255,255,255,0.22) !important; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .addrow input, :root:not([data-theme="light"]) .sheet input, :root:not([data-theme="light"]) .sheet textarea, :root:not([data-theme="light"]) .notes textarea, :root:not([data-theme="light"]) .rowmenu input[type="text"] { background: rgba(255,255,255,0.1) !important; border-color: rgba(255,255,255,0.22) !important; }
+}
+.menu { background-color: rgba(255,255,255,0.88); -webkit-backdrop-filter: blur(28px) saturate(180%); backdrop-filter: blur(28px) saturate(180%); }
+:root[data-theme="dark"] .menu { background-color: rgba(34,38,54,0.92); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .menu { background-color: rgba(34,38,54,0.92); } }
+@media (max-width: 360px) {
+  .seg.epri button.so { font-size: 0.78rem; padding: 0 2px; }
+  body.editing { padding-bottom: 9rem; }
+}
+@media print { body { background: #fff !important; } }
 </style>
 </head>
 <body>
@@ -481,6 +667,7 @@ body.dragging-now { user-select: none; -webkit-user-select: none; cursor: grabbi
 </div>
 <div id="toastbox" aria-live="polite"></div>
 <div id="printarea" aria-hidden="true"></div>
+<input type="file" id="backupfile" accept=".json,application/json,text/plain" hidden>
 <div class="overlay" id="sheet" hidden>
   <div class="scrim" data-close></div>
   <div class="sheet" id="sheetbox" role="dialog" aria-modal="true" aria-labelledby="stitle"></div>
@@ -710,17 +897,18 @@ body.dragging-now { user-select: none; -webkit-user-select: none; cursor: grabbi
     if (DAYS[di].b.length) out += '<button class="primary" type="button" data-act="newtask">+ Add task</button>';
     if (editing) out += '<button class="ghost" type="button" data-act="edit">Done</button>';
     out += '<button class="link wk" type="button" data-act="week">Week \u203A</button>';
-    if (DAYS[di].b.length) {
-      out += '<button class="kebab" type="button" data-act="menu" aria-haspopup="true" aria-expanded="' + menuOpen + '" aria-label="More actions">' + DOTS + '</button>';
-      if (menuOpen) {
-        out += '<div class="menu" role="menu">' +
-          '<button type="button" role="menuitem" data-act="edit">' + (editing ? 'Done editing' : 'Edit tasks') + '</button>' +
+    var has = DAYS[di].b.length;
+    out += '<button class="kebab" type="button" data-act="menu" aria-haspopup="true" aria-expanded="' + menuOpen + '" aria-label="More actions">' + DOTS + '</button>';
+    if (menuOpen) {
+      out += '<div class="menu" role="menu">' +
+        (has ? '<button type="button" role="menuitem" data-act="edit">' + (editing ? 'Done editing' : 'Edit tasks') + '</button>' +
           '<button type="button" role="menuitem" data-act="expandall">Expand all blocks</button>' +
-          '<button type="button" role="menuitem" data-act="collapseall">Collapse all blocks</button>' +
-          (todayIdx >= 0 && tab !== todayIdx ? '<button type="button" role="menuitem" data-act="today">Go to today</button>' : '') +
-          '<button type="button" role="menuitem" class="danger" data-act="clear">Clear checks for ' + DAYS[di].l + '</button>' +
-          '<button type="button" role="menuitem" class="danger" data-act="restore">Restore original tasks</button></div>';
-      }
+          '<button type="button" role="menuitem" data-act="collapseall">Collapse all blocks</button>' : '') +
+        (todayIdx >= 0 && tab !== todayIdx ? '<button type="button" role="menuitem" data-act="today">Go to today</button>' : '') +
+        '<button type="button" role="menuitem" data-act="export">Export backup</button>' +
+        '<button type="button" role="menuitem" data-act="import">Import backup</button>' +
+        (has ? '<button type="button" role="menuitem" class="danger" data-act="clear">Clear checks for ' + DAYS[di].l + '</button>' +
+          '<button type="button" role="menuitem" class="danger" data-act="restore">Restore original tasks</button>' : '') + '</div>';
     }
     return out + '</div>';
   }
@@ -1049,9 +1237,10 @@ body.dragging-now { user-select: none; -webkit-user-select: none; cursor: grabbi
     window.print();
   }
   window.addEventListener('afterprint', function () {
-    document.getElementById('printarea').innerHTML = '';
-    document.title = 'After the Work Day';
-  });
+      // iOS can fire this before the preview has rendered, so keep the recap
+      // in #printarea (it is display:none on screen) and only restore the title later.
+      setTimeout(function () { document.title = 'After the Work Day'; }, 1000);
+    });
   function shareRecap() {
     var d = recapData(recapOff), text = recapText(d), name = 'workout-recap-' + iso(d.start) + '.txt';
     try {
@@ -1119,6 +1308,116 @@ body.dragging-now { user-select: none; -webkit-user-select: none; cursor: grabbi
   }
   toastBox.addEventListener('click', function (e) {
     if (e.target.id === 'undo' && undo) { var r = undo; clearUndo(); r(); render(); }
+  });
+
+  /* ---------- backup and restore ---------- */
+  var BK_APP = 'after-work-day', backupInput = document.getElementById('backupfile'), pending = null;
+  function isObj(x) { return !!x && typeof x === 'object' && !Array.isArray(x); }
+  function backupJson() { return JSON.stringify({app: BK_APP, format: 1, exported: new Date().toISOString(), checks: st, data: cu}); }
+  function downloadBackup(text, name) {
+    var url = URL.createObjectURL(new Blob([text], {type: 'application/json'}));
+    var a = document.createElement('a'); a.href = url; a.download = name;
+    document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1000);
+    showToast('Backup downloaded', null);
+  }
+  function exportBackup() {
+    var text = backupJson(), name = 'after-work-backup-' + iso(new Date()) + '.json';
+    try {
+      if (navigator.share && navigator.canShare) {
+        var kinds = ['application/json', 'text/plain'], f = null;
+        for (var i = 0; i < kinds.length && !f; i++) {
+          var cand = new File([text], name, {type: kinds[i]});
+          if (navigator.canShare({files: [cand]})) f = cand;
+        }
+        if (f) {
+          navigator.share({files: [f], title: 'After the Work Day backup'})
+            .then(function () { showToast('Backup exported', null); })
+            .catch(function (e) { if (!e || e.name !== 'AbortError') downloadBackup(text, name); });
+          return;
+        }
+      }
+    } catch (e) {}
+    downloadBackup(text, name);
+  }
+
+  /* read a backup file and keep only what the app understands */
+  function parseBackup(text) {
+    var b;
+    try { b = JSON.parse(text); } catch (e) { return null; }
+    if (!isObj(b) || b.app !== BK_APP || !isObj(b.data)) return null;
+    var d = b.data, n = {items: {}, notes: {}, refl: {}, mood: {}, log: {}};
+    var bad = ['items', 'notes', 'refl', 'mood', 'log'].some(function (k) { return d[k] != null && !isObj(d[k]); });
+    if (bad) return null;
+    Object.keys(d.items || {}).forEach(function (k) {
+      if (!Array.isArray(d.items[k])) return;
+      n.items[k] = d.items[k].filter(function (x) { return isObj(x) && typeof x.id === 'string' && typeof x.t === 'string'; }).map(function (x) {
+        var o = {id: x.id, t: x.t};
+        if (x.p === 'low' || x.p === 'important') o.p = x.p;
+        if (typeof x.w === 'string') o.w = x.w;
+        return o;
+      });
+    });
+    ['notes', 'refl', 'mood'].forEach(function (k) {
+      Object.keys(d[k] || {}).forEach(function (key) { if (typeof d[k][key] === 'string') n[k][key] = d[k][key]; });
+    });
+    Object.keys(d.log || {}).forEach(function (k) {
+      var L = d.log[k];
+      if (!isObj(L)) return;
+      n.log[k] = {
+        m: L.m == null ? '' : String(L.m),
+        n: typeof L.n === 'string' ? L.n : '',
+        e: Array.isArray(L.e) ? L.e.filter(function (x) { return isObj(x) && typeof x.n === 'string'; }).map(function (x) { return {n: x.n, s: typeof x.s === 'string' ? x.s : ''}; }) : [],
+        p: isObj(L.p) ? L.p : {}
+      };
+    });
+    var ck = null;
+    if (isObj(b.checks) && typeof b.checks.week === 'string' && isObj(b.checks.done)) ck = {week: b.checks.week, done: b.checks.done};
+    return {data: n, checks: ck, exported: typeof b.exported === 'string' ? b.exported : ''};
+  }
+  function summarize(c) {
+    var w = Object.keys(c.log).filter(function (k) { return isLogged(c.log[k]); }).length;
+    var nt = Object.keys(c.notes).filter(function (k) { return c.notes[k].trim(); }).length + Object.keys(c.refl).filter(function (k) { return c.refl[k].trim(); }).length;
+    var cb = Object.keys(c.items).length;
+    function pl(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+    return pl(w, 'workout logged', 'workouts logged') + ', ' + pl(nt, 'note', 'notes') + ', ' + pl(cb, 'customized block', 'customized blocks');
+  }
+  function importSheetHtml(p) {
+    var when = '';
+    var dt = p.exported ? new Date(p.exported) : null;
+    if (dt && !isNaN(dt.getTime())) when = ' from ' + MONL[dt.getMonth()] + ' ' + dt.getDate() + ', ' + dt.getFullYear();
+    return sheetShell('Restore backup', 'Check this is the one you want', 'Cancel',
+      '<div class="wcard logcard"><p><strong>Backup' + when + '</strong></p>' +
+      '<p>' + esc(summarize(p.data)) + '.</p>' +
+      '<p class="hint">On this device now: ' + esc(summarize(cu)) + '.</p>' +
+      '<p class="hint">Restoring replaces what is on this device. You get a few seconds to undo it.</p>' +
+      '<button class="primary" type="button" data-importgo style="width:100%">Replace with this backup</button></div>');
+  }
+  function applyImport() {
+    var p = pending;
+    if (!p) return;
+    pending = null;
+    var prevSt = st, prevCu = cu;
+    cu = p.data;
+    st = p.checks && p.checks.week === wk ? {week: wk, done: p.checks.done} : {week: wk, done: {}};
+    saveCu(); save();
+    closeSheet();
+    render();
+    showToast('Backup restored', function () { cu = prevCu; st = prevSt; saveCu(); save(); });
+  }
+  backupInput.addEventListener('change', function () {
+    var f = backupInput.files && backupInput.files[0];
+    if (!f) return;
+    if (f.size > 5000000) { showToast('That file is too big to be a backup', null); return; }
+    var r = new FileReader();
+    r.onload = function () {
+      var p = parseBackup(String(r.result));
+      if (!p) { showToast('That file is not an After the Work Day backup', null); return; }
+      pending = p;
+      openSheet(importSheetHtml(p), null);
+    };
+    r.onerror = function () { showToast('Could not read that file', null); };
+    r.readAsText(f);
   });
 
   /* ---------- changes ---------- */
@@ -1227,6 +1526,8 @@ body.dragging-now { user-select: none; -webkit-user-select: none; cursor: grabbi
       if (a === 'today') { goTab(todayIdx); return; }
       if (a === 'recap') { recapOff = 0; openSheet(recapSheetHtml(), act); return; }
       if (a === 'menu') { menuOpen = !menuOpen; render(); return; }
+      if (a === 'export') { menuOpen = false; render(); exportBackup(); return; }
+      if (a === 'import') { menuOpen = false; render(); backupInput.value = ''; backupInput.click(); return; }
       if (a === 'edit') { editing = !editing; menuOpen = false; if (!editing) { menuRow = null; addKey = null; } render(); window.scrollTo(0, 0); return; }
       if (a === 'newtask') { openSheet(newTaskHtml(tab), act, 'nt-name'); return; }
       if (a === 'expandall' || a === 'collapseall') {
@@ -1320,6 +1621,7 @@ body.dragging-now { user-select: none; -webkit-user-select: none; cursor: grabbi
   overlay.addEventListener('click', function (e) {
     var t = e.target;
     if (t.hasAttribute('data-close') || t.id === 'sdone') { closeSheet(); return; }
+    if (t.closest('[data-importgo]')) { applyImport(); return; }
     var wt = t.closest('[data-wtab]');
     if (wt && logDay !== null) {
       wTab = wt.getAttribute('data-wtab');
